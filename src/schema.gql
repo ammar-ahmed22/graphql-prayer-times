@@ -11,6 +11,10 @@ type Game {
   takes: Takes!
 }
 
+type Mutation {
+  updateName(firstName: String, lastName: String, username: String!): User!
+}
+
 type PlayerIDs {
   black: String!
   white: String!

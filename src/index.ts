@@ -3,7 +3,16 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4"
 import express from "express";
 import cors from "cors";
-import { ObjectType, Resolver, Int, Field, Query, Arg, buildSchema } from "type-graphql";
+import { 
+  ObjectType, 
+  Resolver, 
+  Int, 
+  Field, 
+  Query, 
+  Arg, 
+  buildSchema, 
+  Mutation 
+} from "type-graphql";
 
 // User Type
 @ObjectType()
@@ -138,6 +147,28 @@ class MyResolver{
     return new Game(game);
 
   }
+
+  @Mutation(returns => User)
+  updateName(
+    @Arg("username") username: string,
+    @Arg("firstName", { nullable: true }) firstName?: string,
+    @Arg("lastName", { nullable: true }) lastName?: string
+  ){
+    const userIdx = this.database.users.findIndex( user => user.username === username)
+
+    if (userIdx === -1) throw new Error("User not found!")
+
+    if (firstName){
+      this.database.users[userIdx].firstName = firstName;
+    }
+
+    if (lastName){
+      this.database.users[userIdx].lastName = lastName;
+    }
+
+    return new User(this.database.users[userIdx])
+  }
+
 }
 
 ( async () => {
