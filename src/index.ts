@@ -145,7 +145,7 @@ class MyResolver{
   const schema = await buildSchema({
     resolvers: [MyResolver],
     emitSchemaFile: {
-      path: __dirname + "./schema.gql", // this wil generate a graphql schema file for us to look at
+      path: __dirname + "/schema.gql", // this wil generate a graphql schema file for us to look at
     }
   })
 
