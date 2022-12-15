@@ -4,5 +4,20 @@ This is basic GraphQL server created with Node.js, TypeScript, Express, Apollo S
 ## Run Locally
 #### Clone the repository
 ```bash
-git clone 
+git clone https://github.com/ammar-ahmed22/graphql-starter.git
 ```
+#### Change directory
+```bash
+cd graphql-starter
+```
+#### Install packages
+```bash
+npm install # yarn install
+```
+
+#### Start dev server
+```bash
+npm run dev # yarn dev
+```
+
+## Docs
