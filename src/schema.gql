@@ -3,38 +3,44 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Game {
-  colorToMove: String!
-  gameStatus: String!
-  id: String!
-  playerIDs: PlayerIDs!
-  takes: Takes!
+type DateField {
+  day: Int!
+  localeString: String!
+  month: Int!
+  year: Int!
 }
 
-type Mutation {
-  updateName(firstName: String, lastName: String, username: String!): User!
+type Datetime {
+  date: DateField!
+  locale: String!
+  time: TimeField!
+  timestamp: Timestamp!
 }
 
-type PlayerIDs {
-  black: String!
-  white: String!
+type PrayerTimes {
+  date: DateField!
+  timings: [Timing!]!
 }
 
 type Query {
-  getGame(id: String!): Game!
-  getUser(username: String!): User!
+  test(name: String): String!
+  today(lat: Float!, lng: Float!, locale: String!, madhab: Int! = 1, method: String! = "MWL", timeZone: String!): PrayerTimes!
 }
 
-type Takes {
-  black: [String!]!
-  white: [String!]!
+type TimeField {
+  hour: Int!
+  localeString: String!
+  millisecond: Int!
+  minute: Int!
+  second: Int!
 }
 
-type User {
-  age: Int!
-  email: String!
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-  username: String!
+"""
+The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+type Timing {
+  datetime: Datetime!
+  name: String!
 }
