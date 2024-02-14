@@ -80,6 +80,36 @@ Provided below are descriptions for each of the properties:
 > [!WARNING]
 > Providing a `timeZone` that does not match with the provided `LocationInput` may result in invalid/confusing results. 
 
+## Output
+### `PrayerTimes`
+```graphql
+type PrayerTimes {
+  date: DateField!
+  params: PrayerTimesParams!
+  timings: [Timing!]!
+}
+```
+#### `DateField`
+```graphql
+type DateField {
+  day: Int!
+  month: Int!
+  year: Int!
+  localeString: String!
+}
+```
+Provides the date that was used for the calculation of the provided timings.
+| Name | Description |
+| :--- | :---------- |
+| `day` | The day of the month from 1-31 |
+| `month` | The month of the year from 1-12 |
+| `year` | The year |
+| `localeString` | A string representation of the date in the provided `locale` (i.e. for `en-US`, `d/MM/YYYY`) | 
+
+#### `PrayerTimesParams`
+
+#### `Timing`
+
 ## Examples
 ### Get all times for Toronto, Canada
 #### Query
