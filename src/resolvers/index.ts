@@ -94,6 +94,8 @@ class Resolver {
       return new PrayerTimes(salahOpts, timingsObj, date, locale, location)
     })
   }
+
+  // TODO Query for all methods
 }
 
 export default Resolver;

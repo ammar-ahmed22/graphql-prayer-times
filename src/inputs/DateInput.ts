@@ -40,6 +40,7 @@ class DateInput {
       const [year, month, day] = this.string
         .split("-")
         .map(s => parseInt(s));
+      // Time at 4am to account for any DST changes
       return new Date(year, month - 1, day);
     }
     return new Date();

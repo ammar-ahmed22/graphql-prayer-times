@@ -14,10 +14,14 @@ export function normalizeHour(hour: number): number {
  * Returns the GMT timezone offset given a valid timezone string
  *
  * @param timeZone A string representing the timezone as per the IANA database
+ * @param date An optional date to get the timezone offset for that specific day (relevant for DST times)
  */
-export function getTimezoneOffset(timeZone: string): number {
-  // Today's date (in the system timezone)
+export function getTimezoneOffset(timeZone: string, date?: Date): number {
+  // The date in the system timezone
   let localDate = new Date();
+  if (date) {
+    localDate = date;
+  }
   localDate.setMinutes(0);
   localDate.setSeconds(0);
   localDate.setMilliseconds(0);
@@ -80,7 +84,7 @@ export function dateRange(start: Date, end: Date, step: Duration): Date[] {
   if (diff.getMilliseconds() < 0) {
     throw new Error("start date must be before end date!")
   }
-  
+
   if (diff.getMilliseconds() === 0) {
     throw new Error("start and end date cannot be the same!")
   }
