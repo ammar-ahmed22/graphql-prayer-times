@@ -1,32 +1,78 @@
-# GraphQL Starter
+# Prayer Times GraphQL API
 
-This is basic GraphQL server created with Node.js, TypeScript, Express, Apollo Server and TypeGraphQL. It was created as a tutorial blog post on my website [ammarahmed.ca](https://ammarahmed.ca). You can see the blog post [here](https://ammarahmed.ca/blog/graphql-api-with-node-js).
+## Overview
 
-## Run Locally
+This GraphQL API provides prayer times calculations for different locations and dates. It supports various calculation methods and madhabs.
 
-#### Clone the repository
+## Schema
 
-```bash
-git clone https://github.com/ammar-ahmed22/graphql-starter.git
-```
+### Types
 
-#### Change directory
+- **DateField**: Represents a date with day, month, and year fields.
+- **Datetime**: Represents a date and time with additional formatting options.
+- **LocationType**: Represents a geographical location with latitude and longitude.
+- **PrayerTimes**: Represents the prayer times for a specific date and location.
+- **PrayerTimesParams**: Parameters used for the calculation of prayer times.
+- **TimeField**: Represents a time with hour, minute, and second fields.
+- **Timing**: Represents a specific prayer time with its name and datetime.
 
-```bash
-cd graphql-starter
-```
+### Inputs
 
-#### Install packages
+- **DateInput**: An input for dates with options for providing a string or individual year, month, and day values.
+- **LocationInput**: An input for locations with options for providing an address, city and country, or latitude and longitude.
 
-```bash
-npm install # yarn install
-```
+### Queries
 
-#### Start dev server
+- **byDate**: Calculates prayer times for a provided date and location.
+- **byRange**: Calculates prayer times for a range of dates and a specific location.
 
-```bash
-npm run dev # yarn dev
-```
+## Example Queries
+
+### Get Prayer Times for a Specific Date
+
+```graphql
+query {
+  byDate(
+    date: { year: 2024, month: 2, day: 14 },
+    locale: "en-US",
+    location: { lat: 43.65107, lng: -79.347015 },
+    madhab: 1,
+    method: "MWL",
+    timeZone: "America/Toronto",
+    timings: ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]
+  ) {
+    date {
+      day
+      month
+      year
+    }
+    params {
+      locale
+      location {
+        lat
+        lng
+      }
+      madhab
+      method
+      timeZone
+    }
+    timings {
+      name
+      datetime {
+        date {
+          day
+          month
+          year
+        }
+        time {
+          hour
+          minute
+        }
+      }
+    }
+  }
+}
+
 
 ## Docs
 
