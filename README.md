@@ -510,3 +510,6 @@ The above query outputs the following JSON:
 - [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
 - [TypeGraphQL](https://typegraphql.com/docs/introduction.html)
 - [Express](https://expressjs.com/)
+
+## License
+[MIT](./LICENSE)
