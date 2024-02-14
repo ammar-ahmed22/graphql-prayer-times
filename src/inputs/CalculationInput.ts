@@ -1,5 +1,5 @@
 import {
-  ArgsType,
+  InputType,
   Field,
   Float,
   Int,
@@ -29,8 +29,8 @@ let ALL_TIMES: TimingName[] = [
   "midnight",
 ];
 
-@ObjectType()
-@ArgsType()
+@ObjectType("CalculationType")
+@InputType({ description: "An input for the parameters used for the prayer times calculation. All values have defaults."})
 class CalculationInput {
   @Field(type => String, { defaultValue: "MWL", description: `The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: \`${METHOD_NAMES.join(",")}\`. See docs for more details about this parameter.` })
   @IsStringUnion(isMethodName, "MethodName")

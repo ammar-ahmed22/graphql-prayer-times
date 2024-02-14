@@ -3,6 +3,36 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""
+An input for the parameters used for the prayer times calculation. All values have defaults.
+"""
+input CalculationInput {
+  """
+  The locale to use for date outputs as per the JavaScript documentation.
+  """
+  locale: String! = "en-US"
+
+  """
+  The madhab (school of thought) used for Asr time calculation. 1 for Hanafi, 2 for Shafi (Hanbali and Maliki as well). The Ahnaf (Hanafi's) use a later time for Asr calculation. See docs for more details.
+  """
+  madhab: Int! = 1
+
+  """
+  The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: `MWL,ISNA,Egypt`. See docs for more details about this parameter.
+  """
+  method: String! = "MWL"
+
+  """
+  The timezone to use for the calculation as per the IANA database. If not provided, will be determined based on your location.
+  """
+  timeZone: String
+
+  """
+  A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`
+  """
+  timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]
+}
+
 """Object that stores a date in different formats."""
 type DateField {
   """The day value from 1-31"""
@@ -101,72 +131,33 @@ type PrayerTimesParams {
 type Query {
   """Calculates specified prayer timings for a provided date."""
   byDate(
+    """Parameters used for calculation. If `null`, uses defaults."""
+    calculation: CalculationInput
+
     """
     The date to calculate for. If `null`, uses the date now in the provided timezone.
     """
     date: DateInput
 
-    """
-    The locale to use for date outputs as per the JavaScript documentation.
-    """
-    locale: String! = "en-US"
-
     """The location to calculate timings for."""
     location: LocationInput!
-
-    """
-    The madhab (school of thought) used for Asr time calculation. 1 for Hanafi, 2 for Shafi (Hanbali and Maliki as well). The Ahnaf (Hanafi's) use a later time for Asr calculation. See docs for more details.
-    """
-    madhab: Int! = 1
-
-    """
-    The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: `MWL,ISNA,Egypt`. See docs for more details about this parameter.
-    """
-    method: String! = "MWL"
-
-    """
-    The timezone to use for the calculation as per the IANA database. If not provided, will be determined based on your location.
-    """
-    timeZone: String
-
-    """
-    A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`
-    """
-    timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]
   ): PrayerTimes!
 
   """
   Calculates specified prayer times for a provided range of dates [`start`, `end`]. Must be at least 2 days in the range.
   """
   byRange(
+    """Parameters used for calculation. If `null`, uses defaults."""
+    calculation: CalculationInput
+
+    """The `end` date for the range."""
     end: DateInput!
 
-    """
-    The locale to use for date outputs as per the JavaScript documentation.
-    """
-    locale: String! = "en-US"
+    """The location to calculate timings for."""
     location: LocationInput!
 
-    """
-    The madhab (school of thought) used for Asr time calculation. 1 for Hanafi, 2 for Shafi (Hanbali and Maliki as well). The Ahnaf (Hanafi's) use a later time for Asr calculation. See docs for more details.
-    """
-    madhab: Int! = 1
-
-    """
-    The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: `MWL,ISNA,Egypt`. See docs for more details about this parameter.
-    """
-    method: String! = "MWL"
+    """The `start` date for the range."""
     start: DateInput!
-
-    """
-    The timezone to use for the calculation as per the IANA database. If not provided, will be determined based on your location.
-    """
-    timeZone: String
-
-    """
-    A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`
-    """
-    timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]
   ): [PrayerTimes!]!
 }
 

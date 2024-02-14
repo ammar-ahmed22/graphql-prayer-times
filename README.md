@@ -5,6 +5,41 @@
 
 A public GraphQL API for calculating Islamic prayer times with highly configurable options. All calculations are done internally without any external dependencies (for the calculations).
 
+## Available Queries:
+```graphql
+byDate(
+  location: LocationInput!
+  date: DateInput
+  calculation: CalculationInput
+) : PrayerTimes!
+
+byRange(
+ location: LocationInput!
+ start: DateInput!
+ end: DateInput!
+ calculation: CalculationInput
+) : [PrayerTimes!]!
+```
+
+## Inputs
+### `LocationInput`
+```graphql
+input LocationInput {
+  address: String
+  city: String
+  country: String
+  lat: Float
+  lng: Float
+}
+```
+The location input can be provided in 3 distinct ways:
+1. only `address`: Makes an OpenStreetMaps API request to search for the latitude/longitude
+2. `city` and `country`: Makes an OpenStreetMaps API request to search for the latitude/longitude
+3. `lat` and `lng`: Uses these values directly
+
+> [!WARNING]
+> Warning broo
+
 ## Examples
 ### Get all times for Toronto, Canada
 #### Query
@@ -98,6 +133,9 @@ The above query will provide the below JSON output:
   }
 }
 ```
+
+## Schema
+
 <!-- 
 # Prayer Times GraphQL API
 
