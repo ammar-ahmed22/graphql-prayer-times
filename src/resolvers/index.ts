@@ -18,11 +18,6 @@ import LocationInput from "../inputs/LocationInput";
 
 @ResolverType()
 class Resolver {
-  // @Query(returns => String)
-  // test(@Arg("name", { nullable: true }) name?: string) {
-  //   if (name) return `hello ${name}`;
-  //   return "hello world";
-  // }
 
   @Query(returns => PrayerTimes, { description: "Calculates specified prayer timings for a provided date."})
   async byDate(

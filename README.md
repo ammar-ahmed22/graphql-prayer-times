@@ -5,6 +5,144 @@
 
 A public GraphQL API for calculating Islamic prayer times with highly configurable options. All calculations are done internally without any external dependencies (for the calculations).
 
+## Examples
+### Get all Fardh Prayer times for Toronto, Canada
+#### Query
+```graphql
+query FardhTorontoCanada($location: LocationInput!, $date: DateInput, $timings: [String!]!) {
+  byDate(location: $location, date: $date, timings: $timings) {
+    params {
+      timeZone
+      method
+      madhab
+      locale
+      location {
+        lat
+        lng
+      }
+    }
+    date {
+      localeString
+      year
+      month
+      day
+    }
+    timings {
+      name
+      datetime {
+        timestamp
+        time {
+          localeString
+          hour
+          minute
+          second
+        }
+      }
+    }
+  }
+}
+```
+
+#### Variables
+```json
+{
+  "location": {
+    "city": "Toronto",
+    "country": "Canada"
+  },
+  "date": {
+    "string": "2024-02-14"
+  },
+  "timings": ["fajr", "dhuhr", "asr", "maghrib", "isha"]
+}
+```
+#### Output
+```json
+{
+  "data": {
+    "byDate": {
+      "params": {
+        "timeZone": "America/Toronto",
+        "method": "Muslim World League",
+        "madhab": "Hanafi",
+        "locale": "en-US",
+        "location": {
+          "lat": 43.6534817,
+          "lng": -79.3839347
+        }
+      },
+      "date": {
+        "localeString": "2/14/2024",
+        "year": 2024,
+        "month": 2,
+        "day": 14
+      },
+      "timings": [
+        {
+          "name": "fajr",
+          "datetime": {
+            "timestamp": 1707908334287,
+            "time": {
+              "localeString": "5:58:54 AM",
+              "hour": 5,
+              "minute": 58,
+              "second": 54
+            }
+          }
+        },
+        {
+          "name": "dhuhr",
+          "datetime": {
+            "timestamp": 1707931902655,
+            "time": {
+              "localeString": "12:31:42 PM",
+              "hour": 12,
+              "minute": 31,
+              "second": 42
+            }
+          }
+        },
+        {
+          "name": "asr",
+          "datetime": {
+            "timestamp": 1707941924746,
+            "time": {
+              "localeString": "3:18:44 PM",
+              "hour": 15,
+              "minute": 18,
+              "second": 44
+            }
+          }
+        },
+        {
+          "name": "maghrib",
+          "datetime": {
+            "timestamp": 1707950674530,
+            "time": {
+              "localeString": "5:44:34 PM",
+              "hour": 17,
+              "minute": 44,
+              "second": 34
+            }
+          }
+        },
+        {
+          "name": "isha",
+          "datetime": {
+            "timestamp": 1707955471022,
+            "time": {
+              "localeString": "7:04:31 PM",
+              "hour": 19,
+              "minute": 4,
+              "second": 31
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
 <!-- 
 # Prayer Times GraphQL API
 
