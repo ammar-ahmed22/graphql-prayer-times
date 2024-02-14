@@ -27,6 +27,14 @@ type Datetime {
   timestamp: Timestamp!
 }
 
+input LocationInput {
+  address: String
+  city: String
+  country: String
+  lat: Float
+  lng: Float
+}
+
 type PrayerTimes {
   date: DateField!
   timings: [Timing!]!
@@ -34,7 +42,7 @@ type PrayerTimes {
 
 type Query {
   test(name: String): String!
-  today(date: DateInput, lat: Float!, lng: Float!, locale: String! = "en-US", madhab: Int! = 1, method: String! = "MWL", timeZone: String! = "America/Toronto", timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]): PrayerTimes!
+  today(date: DateInput, locale: String! = "en-US", location: LocationInput!, madhab: Int! = 1, method: String! = "MWL", timeZone: String! = "America/Toronto", timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]): PrayerTimes!
 }
 
 type TimeField {

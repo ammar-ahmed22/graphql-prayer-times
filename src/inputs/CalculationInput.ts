@@ -32,11 +32,11 @@ let ALL_TIMES: TimingName[] = [
 @ArgsType()
 class CalculationInput {
   // TODO make these into a separate location input (lat, lng, city, country, address)
-  @Field(type => Float)
-  public lat: number;
+  // @Field(type => Float)
+  // public lat: number;
 
-  @Field(type => Float)
-  public lng: number;
+  // @Field(type => Float)
+  // public lng: number;
 
   @Field(type => String, { defaultValue: "MWL" })
   @IsStringUnion(isMethodName, "MethodName")

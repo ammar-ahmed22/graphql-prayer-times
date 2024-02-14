@@ -17,6 +17,7 @@ import {
 import { timezoneConvert } from "../utils/time";
 import CalculationInput from "../inputs/CalculationInput";
 import DateInput from "../inputs/DateInput";
+import LocationInput from "../inputs/LocationInput";
 
 @ResolverType()
 class Resolver {
@@ -27,17 +28,16 @@ class Resolver {
   }
 
   @Query(returns => PrayerTimes)
-  today(
+  async today(
     @Args({ validate: true })
     {
-      lat,
-      lng,
       timeZone,
       locale,
       method,
       madhab,
       timings,
     }: CalculationInput,
+    @Arg("location", { validate: true }) location: LocationInput,
     @Arg("date", { validate: true, nullable: true })
     dateInput?: DateInput,
   ) {
@@ -47,6 +47,8 @@ class Resolver {
     } else {
       date = timezoneConvert(timeZone, new Date());
     }
+
+    const [lat, lng] = await location.getCoords();
 
     console.log({
       lat,
