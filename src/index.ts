@@ -180,7 +180,8 @@ import Resolver from "./resolvers";
     emitSchemaFile: {
       path: __dirname + "/schema.gql", // this wil generate a graphql schema file for us to look at
     },
-    scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }]
+    scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
+    validate: true
   })
 
   const app = express(); // the express server

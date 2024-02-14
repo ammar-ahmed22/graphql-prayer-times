@@ -3,11 +3,11 @@ import {
   Field 
 } from "type-graphql";
 import Timing from "./Timing";
-import Salah, { SalahOptions, TimingNames } from "../utils/Salah";
+import Salah, { SalahOptions, TimingName } from "../utils/Salah";
 import Datetime, { DateField } from "./Datetime";
 
 export type TimingNameInput = {
-  [K in TimingNames]?: boolean
+  [K in TimingName]?: boolean
 }
 
 @ObjectType()
@@ -17,7 +17,7 @@ class PrayerTimes {
     this.salah = new Salah(salahOpts); 
     let timings: Timing[] = [];
     for (let t in timingNames) {
-      let timingName = t as TimingNames;
+      let timingName = t as TimingName;
       if (timingNames[timingName]) {
         let timing = this.salah.getTiming(timingName, date);
         timings.push(new Timing(timingName as string, timing, locale));

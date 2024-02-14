@@ -10,6 +10,7 @@ import PrayerTimes, { TimingNameInput } from "../models/PrayerTimes";
 import { Madhab, Methods, MethodName, isMethodName, SalahOptions } from "../utils/Salah";
 import { timezoneConvert } from "../utils/time";
 import CalculationInput from "../inputs/CalculationInput";
+import DateInput from "../inputs/DateInput";
 
 @ResolverType()
 class Resolver {
@@ -24,17 +25,19 @@ class Resolver {
 
   @Query(returns => PrayerTimes)
   today(
-    @Args(type => CalculationInput) { lat, lng, timeZone, locale, method, madhab } : CalculationInput
+    @Args({ validate: true }) { lat, lng, timeZone, locale, method, madhab, timings } : CalculationInput,
+    @Arg("date", { validate: true, nullable: true }) dateInput?: DateInput
   ) {
-    let today = timezoneConvert(timeZone, new Date());
-    console.log({ lat, lng, timeZone, locale, method, madhab });
-    if (!isMethodName(method)) {
-      throw new Error(`method = \`${method}\` is not a MethodName`)
-    }
 
-    if (madhab < 1 || madhab > 2) {
-      throw new Error(`madhab = \`${madhab}\` is invalid! Must be 1 or 2.`)
+    let date: Date;
+    if (dateInput) {
+      date = dateInput.date;
+    } else {
+      date = timezoneConvert(timeZone, new Date());
     }
+    
+    console.log({ lat, lng, timeZone, locale, method, madhab, timings });
+  
 
     const salahOpts: SalahOptions = {
       lat,
@@ -44,14 +47,15 @@ class Resolver {
       method: Methods[method]
     }; 
 
-    let timings: TimingNameInput = {
-      asr: true
-    }
-
+    let timingsObj: TimingNameInput = {};
+    timings.forEach(timing => {
+      timingsObj[timing] = true;
+    })
+    
     return new PrayerTimes(
       salahOpts,
-      timings,
-      today,
+      timingsObj,
+      date,
       locale
     )
   }

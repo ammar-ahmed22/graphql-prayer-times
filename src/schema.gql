@@ -10,6 +10,16 @@ type DateField {
   year: Int!
 }
 
+"""
+An input for dates. year, month, and day inputs can be provided OR an ISO8601 (YYYY-MM-DD) date string. Either provide a string OR the year, month, day values. They cannot be provided together.
+"""
+input DateInput {
+  day: Int
+  month: Int
+  string: String
+  year: Int
+}
+
 type Datetime {
   date: DateField!
   locale: String!
@@ -24,7 +34,7 @@ type PrayerTimes {
 
 type Query {
   test(name: String): String!
-  today(lat: Float!, lng: Float!, locale: String!, madhab: Int! = 1, method: String! = "MWL", timeZone: String!): PrayerTimes!
+  today(date: DateInput, lat: Float!, lng: Float!, locale: String! = "en-US", madhab: Int! = 1, method: String! = "MWL", timeZone: String! = "America/Toronto", timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]): PrayerTimes!
 }
 
 type TimeField {

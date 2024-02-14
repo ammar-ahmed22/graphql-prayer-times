@@ -27,10 +27,16 @@ export class CalculationMethod {
   public ishaParam: number | Duration;
 }
 
-export type MethodName = "MWL" | "ISNA" | "Egypt";
+export const METHOD_NAMES = [
+  "MWL",
+  "ISNA",
+  "Egypt"
+] as const;
+
+export type MethodName = typeof METHOD_NAMES[number];
 
 export function isMethodName(val: string): val is MethodName {
-  if (["MWL", "ISNA", "Eypt"].includes(val)) return true;
+  if (METHOD_NAMES.includes(val as MethodName)) return true;
   return false;
 }
 
@@ -65,14 +71,22 @@ export enum Madhab {
   Hanafi = 2
 }
 
-export type TimingNames = 
-  "fajr" |
-  "sunrise" |
-  "dhuhr" |
-  "asr" |
-  "maghrib" |
-  "isha" |
+export const TIMING_NAMES = [
+  "fajr",
+  "sunrise",
+  "dhuhr",
+  "asr",
+  "maghrib",
+  "isha",
   "midnight"
+] as const;
+
+export type TimingName = typeof TIMING_NAMES[number];
+
+export function isTimingName(val: string): val is TimingName {
+  if (TIMING_NAMES.includes(val as TimingName)) return true;
+  return false;
+}
 
 class Salah {
   private timeZone: string; 
@@ -88,7 +102,6 @@ class Salah {
     this.lat = opts.lat;
     this.lng = opts.lng;
     this.method = opts.method ?? Methods.MWL;
-    console.log(this.method.id, opts.method);
     this.timeZone = opts.timeZone ?? "America/Toronto";
     this.tzOffset = getTimezoneOffset(this.timeZone);
     this.madhab = opts.madhab ?? Madhab.Shafi;
@@ -301,7 +314,7 @@ class Salah {
    * @param name The name of the prayer time to calculate.
    * @param date The date to calculate for.
    */
-  public getTiming(name: TimingNames, date: Date): Date {
+  public getTiming(name: TimingName, date: Date): Date {
     return this[name](date);
   }
 
@@ -312,7 +325,7 @@ class Salah {
    * @param date The date or dates to calculate for. When providing an array of dates, the length must be the same as the `names`.
    * @returns 
    */
-  public getTimings(names: TimingNames[], date: (Date | Date[])): Date[] {
+  public getTimings(names: TimingName[], date: (Date | Date[])): Date[] {
     let dates: Date[] = [];
     if (Array.isArray(date)) {
       if (names.length !== date.length) throw new RangeError("Array `names` must match the size of Array `date`!");

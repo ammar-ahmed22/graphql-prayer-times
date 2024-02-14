@@ -1,4 +1,4 @@
-import Salah, { TimingNames, Madhab } from "./Salah";
+import Salah, { TimingName, Madhab } from "./Salah";
 import Duration from "./Duration";
 
 describe("Salah", () => {
@@ -11,7 +11,7 @@ describe("Salah", () => {
   // February 12th, 2024
   let date = new Date(2024, 1, 12);
   let expectedTimes: {
-    [K in TimingNames]: Date
+    [K in TimingName]: Date
   } = {
     "fajr": new Date(2024, 1, 12, 5, 59, 0, 0),
     "sunrise": new Date(2024, 1, 12, 7, 20, 0, 0),
@@ -23,7 +23,7 @@ describe("Salah", () => {
   }
 
 
-  const testTime = (name: TimingNames) => {
+  const testTime = (name: TimingName) => {
     let time = salah.getTiming(name, date);
     let expected = expectedTimes[name];
     let diff = Duration.fromDifference(time, expected);
@@ -31,14 +31,14 @@ describe("Salah", () => {
   }
 
   for (let key of Object.keys(expectedTimes)) {
-    let k = key as TimingNames;
+    let k = key as TimingName;
     it(`calculates ${k} time correctly`, () => {
       testTime(k)
     })
   }
 
   it("generates multiple times for the same date correctly", () => {
-    const names: TimingNames[] = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
+    const names: TimingName[] = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
     const times = salah.getTimings(
       names,
       date
