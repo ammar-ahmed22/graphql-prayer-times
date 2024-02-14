@@ -33,8 +33,8 @@ input LocationInput {
 }
 ```
 The location input can be provided in 3 distinct ways:
-1. only `address`: Makes an OpenStreetMaps API request to search for the latitude/longitude
-2. `city` and `country`: Makes an OpenStreetMaps API request to search for the latitude/longitude
+1. only `address`: Makes an [OpenStreetMaps API](https://nominatim.org/release-docs/latest/api/Overview/) request to search for the latitude/longitude
+2. `city` and `country`: Makes an [OpenStreetMaps API](https://nominatim.org/release-docs/latest/api/Overview/) request to search for the latitude/longitude
 3. `lat` and `lng`: Uses these values directly
 
 > [!WARNING]
