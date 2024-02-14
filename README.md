@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./images//graphql-prayer-times-logo.jpg" width="100" height="100">
+  <img src="./images//graphql-prayer-times-logo.jpg" width="100" height="100" borderRadius="500" >
   <h1>Prayer Times GraphQL API</h1>
 </div>
 
