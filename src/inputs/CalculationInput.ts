@@ -41,8 +41,8 @@ class CalculationInput {
   @Max(2)
   public madhab: Madhab = Madhab.Shafi;
 
-  @Field(type => String, { defaultValue: "America/Toronto", description: "The timezone to use for the calculation as per the IANA database. If the location and timezone do not match up, there will likely be errors." })
-  public timeZone: string = "America/Toronto";
+  @Field(type => String, { nullable: true, description: "The timezone to use for the calculation as per the IANA database. If not provided, will be determined based on your location." })
+  public timeZone?: string;
 
   @Field(type => String, { defaultValue: "en-US", description: "The locale to use for date outputs as per the JavaScript documentation." })
   public locale: string = "en-US";

@@ -125,9 +125,9 @@ type Query {
     method: String! = "MWL"
 
     """
-    The timezone to use for the calculation as per the IANA database. If the location and timezone do not match up, there will likely be errors.
+    The timezone to use for the calculation as per the IANA database. If not provided, will be determined based on your location.
     """
-    timeZone: String! = "America/Toronto"
+    timeZone: String
 
     """
     A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`
@@ -159,9 +159,9 @@ type Query {
     start: DateInput!
 
     """
-    The timezone to use for the calculation as per the IANA database. If the location and timezone do not match up, there will likely be errors.
+    The timezone to use for the calculation as per the IANA database. If not provided, will be determined based on your location.
     """
-    timeZone: String! = "America/Toronto"
+    timeZone: String
 
     """
     A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`

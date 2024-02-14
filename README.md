@@ -1,3 +1,11 @@
+<div align="center">
+  <img src="./images//graphql-prayer-times-logo.jpg" width="100" height="100">
+  <h1>Prayer Times GraphQL API</h1>
+</div>
+
+A public GraphQL API for calculating Islamic prayer times with highly configurable options. All calculations are done internally without any external dependencies (for the calculations).
+
+<!-- 
 # Prayer Times GraphQL API
 
 ## Overview
@@ -72,7 +80,9 @@ query {
     }
   }
 }
-```
+``` 
+-->
+
 
 ## Docs
 

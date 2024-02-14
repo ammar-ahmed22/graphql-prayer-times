@@ -2,18 +2,14 @@ import {
   Resolver as ResolverType,
   Query,
   Arg,
-  Float,
-  Int,
   Args,
 } from "type-graphql";
 import PrayerTimes, { TimingNameInput } from "../models/PrayerTimes";
 import {
-  Madhab,
   Methods,
-  MethodName,
-  isMethodName,
   SalahOptions,
 } from "../utils/Salah";
+import { find } from "geo-tz";
 import { dateRange, timezoneConvert } from "../utils/time";
 import Duration from "../utils/Duration";
 import CalculationInput from "../inputs/CalculationInput";
@@ -36,7 +32,14 @@ class Resolver {
     dateInput?: DateInput,
   ) {
 
-    const { timeZone, madhab, method, timings, locale } = calculation;
+    let { timeZone, madhab, method, timings, locale } = calculation;
+    const [lat, lng] = await location.getCoords();
+    location.setCoords([lat, lng]);
+
+    if (!timeZone) {
+      timeZone = find(lat, lng)[0];
+      if (!timeZone) throw new Error("Could not find a timezone based on the provided location!")
+    }
 
     let date: Date;
     if (dateInput) {
@@ -44,9 +47,6 @@ class Resolver {
     } else {
       date = timezoneConvert(timeZone, new Date());
     }
-
-    const [lat, lng] = await location.getCoords();
-    location.setCoords([lat, lng]);
 
     const salahOpts: SalahOptions = {
       lat,
@@ -73,9 +73,13 @@ class Resolver {
   ) {
     const range = dateRange(start.date, end.date, Duration.fromHours(24))
 
-    const { timeZone, madhab, method, timings, locale } = calculation;
+    let { timeZone, madhab, method, timings, locale } = calculation;
     const [lat, lng] = await location.getCoords();
     location.setCoords([lat, lng]);
+    if (!timeZone) {
+      timeZone = find(lat, lng)[0];
+      if (!timeZone) throw new Error("Could not find a timezone based on the provided location!")
+    }
 
     const salahOpts: SalahOptions = {
       lat,
