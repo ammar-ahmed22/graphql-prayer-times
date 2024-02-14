@@ -38,7 +38,7 @@ The location input can be provided in 3 distinct ways:
 3. `lat` and `lng`: Uses these values directly
 
 > [!WARNING]
-> Warning broo
+> Providing the `LocationInput` with a combination of any of the above 3 methods will throw a validation error.
 
 ## Examples
 ### Get all times for Toronto, Canada
