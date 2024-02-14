@@ -1,17 +1,17 @@
-import { InputType, Field, Float } from "type-graphql";
+import { InputType, Field, Float, ObjectType } from "type-graphql";
 import { OnlyWith } from "../validation/OnlyWith";
 import { OnlyWithout } from "../validation/OnlyWithout";
 import axios, { Axios } from "axios";
 
-
-@InputType()
+@ObjectType("LocationType")
+@InputType({ description: "An input for locations used for calculation. `city` and `country` must be provided together with all other fields null. `address` must be provided on it's own with all other fields null. `lat` and `lng` must be provided alone with all other fields null. Providing `city` and `country` or `address` will make an OpenStreetMaps API request to get the `lat` and `lng`."})
 class LocationInput {
-  @Field(type => Float, { nullable: true })
+  @Field(type => Float, { nullable: true, description: "The latitude value." })
   @OnlyWith("lng")
   @OnlyWithout(["country", "city", "address"])
   public lat: number;
 
-  @Field(type => Float, { nullable: true })
+  @Field(type => Float, { nullable: true, description: "The longitude value." })
   @OnlyWith("lat")
   @OnlyWithout(["country", "city", "address"])
   public lng: number;
@@ -68,6 +68,11 @@ class LocationInput {
       return [lat, lng];
     }
     throw new Error("No valid values for LocationInput!");
+  }
+
+  public setCoords(coords: [number, number]) {
+    this.lat = coords[0];
+    this.lng = coords[1];
   }
 }
 

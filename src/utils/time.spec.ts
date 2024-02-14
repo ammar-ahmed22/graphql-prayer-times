@@ -1,4 +1,5 @@
-import { getTimezoneOffset, timezoneConvert } from "./time";
+import Duration from "./Duration";
+import { getTimezoneOffset, timezoneConvert, dateRange } from "./time";
 
 describe("getTimezoneOffset", () => {
   it("calculates the GMT timezone offset correctly", () => {
@@ -20,3 +21,29 @@ describe("timezoneConvert", () => {
     expect(shanghaiNow.getHours()).toBe(1); // 1 am
   });
 });
+
+describe("dateRange", () => {
+  it("creates a range of dates correctly with step size of 1 day", () => {
+    let start = new Date();
+    let end = new Date(start.getTime())
+    end.setDate(start.getDate() + 2);
+    let step = Duration.fromHours(24);
+    let range = dateRange(start, end, step);
+    expect(range.length).toBe(3);
+    expect(range[0].getTime()).toBe(start.getTime());
+    expect(range.at(-1)?.getTime()).toBe(end.getTime());
+    expect(Duration.fromDifference(range[0], range[1]).getDays()).toBe(1);
+  })
+  
+  it("creates a range of dates correctly with step size of 1 hour", () => {
+    let start = new Date();
+    let end = new Date(start.getTime());
+    end.setDate(start.getDate() + 1);
+    let step = Duration.fromHours(1);
+    let range = dateRange(start, end, step);
+    expect(range.length).toBe(25);
+    expect(range[0].getTime()).toBe(start.getTime());
+    expect(range.at(-1)?.getTime()).toBe(end.getTime());
+    expect(Duration.fromDifference(range[0], range[1]).getHours()).toBe(1);
+  })
+})

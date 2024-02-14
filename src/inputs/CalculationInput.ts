@@ -11,6 +11,7 @@ import {
   isMethodName,
   TimingName,
   isTimingName,
+  METHOD_NAMES
 } from "../utils/Salah";
 import { Min, Max, ArrayContains } from "class-validator";
 import {
@@ -31,29 +32,22 @@ let ALL_TIMES: TimingName[] = [
 @ObjectType()
 @ArgsType()
 class CalculationInput {
-  // TODO make these into a separate location input (lat, lng, city, country, address)
-  // @Field(type => Float)
-  // public lat: number;
-
-  // @Field(type => Float)
-  // public lng: number;
-
-  @Field(type => String, { defaultValue: "MWL" })
+  @Field(type => String, { defaultValue: "MWL", description: `The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: \`${METHOD_NAMES.join(",")}\`. See docs for more details about this parameter.` })
   @IsStringUnion(isMethodName, "MethodName")
   public method: MethodName = "MWL";
 
-  @Field(type => Int, { defaultValue: 1 })
+  @Field(type => Int, { defaultValue: 1, description: "The madhab (school of thought) used for Asr time calculation. 1 for Hanafi, 2 for Shafi (Hanbali and Maliki as well). The Ahnaf (Hanafi's) use a later time for Asr calculation. See docs for more details." })
   @Min(1)
   @Max(2)
   public madhab: Madhab = Madhab.Shafi;
 
-  @Field(type => String, { defaultValue: "America/Toronto" })
+  @Field(type => String, { defaultValue: "America/Toronto", description: "The timezone to use for the calculation as per the IANA database. If the location and timezone do not match up, there will likely be errors." })
   public timeZone: string = "America/Toronto";
 
-  @Field(type => String, { defaultValue: "en-US" })
+  @Field(type => String, { defaultValue: "en-US", description: "The locale to use for date outputs as per the JavaScript documentation." })
   public locale: string = "en-US";
 
-  @Field(type => [String], { defaultValue: ALL_TIMES })
+  @Field(type => [String], { defaultValue: ALL_TIMES, description: `A list of timings to calculate. Valid options are from the following: \`${ALL_TIMES.join(",")}\`` })
   @ArrayIsStringUnion(isTimingName, "TimingName")
   public timings: TimingName[] = ALL_TIMES;
 }

@@ -67,6 +67,40 @@ export function timezoneConvert(timeZone: string, date: Date): Date {
 }
 
 /**
+ * Creates a range of dates from [`start`, `end`] given a `step` size
+ * 
+ * **NOTE**: As it is an inclusive range, the last element may not be exactly 1 step size away.
+ * 
+ * @param start The date to start the range with (inclusive)
+ * @param end The date to end the range with (inclusive)
+ * @param step The step size
+ */
+export function dateRange(start: Date, end: Date, step: Duration): Date[] {
+  let diff = Duration.fromDifference(start, end);
+  if (diff.getMilliseconds() < 0) {
+    throw new Error("start date must be before end date!")
+  }
+  
+  if (diff.getMilliseconds() === 0) {
+    throw new Error("start and end date cannot be the same!")
+  }
+
+  if (diff.getMilliseconds() < step.getMilliseconds()) {
+    throw new Error("step size is too small!")
+  }
+
+  let range: Date[] = [start];
+  let curr = start;
+  while(Duration.add(curr, step).getTime() < end.getTime()) {
+    let next = Duration.add(curr, step);
+    range.push(next);
+    curr = next;
+  }
+  range.push(end);
+  return range;
+}
+
+/**
  * Object that helps with creating dates without time
  */
 export class NaiveDate {

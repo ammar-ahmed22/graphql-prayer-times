@@ -3,10 +3,18 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Object that stores a date in different formats."""
 type DateField {
+  """The day value from 1-31"""
   day: Int!
+
+  """The date as a string according to the locale provided."""
   localeString: String!
+
+  """The month value from 1-12."""
   month: Int!
+
+  """The year value."""
   year: Int!
 }
 
@@ -20,36 +28,163 @@ input DateInput {
   year: Int
 }
 
+"""Object that stores date and time in different formats."""
 type Datetime {
   date: DateField!
+
+  """The locale used."""
   locale: String!
+
+  """The date and time as a string according to the locale provided."""
+  localeString: String!
   time: TimeField!
+
+  """The amount of milliseconds since the epoch."""
   timestamp: Timestamp!
 }
 
+"""
+An input for locations used for calculation. `city` and `country` must be provided together with all other fields null. `address` must be provided on it's own with all other fields null. `lat` and `lng` must be provided alone with all other fields null. Providing `city` and `country` or `address` will make an OpenStreetMaps API request to get the `lat` and `lng`.
+"""
 input LocationInput {
   address: String
   city: String
   country: String
+
+  """The latitude value."""
   lat: Float
+
+  """The longitude value."""
+  lng: Float
+}
+
+type LocationType {
+  address: String
+  city: String
+  country: String
+
+  """The latitude value."""
+  lat: Float
+
+  """The longitude value."""
   lng: Float
 }
 
 type PrayerTimes {
   date: DateField!
+  params: PrayerTimesParams!
   timings: [Timing!]!
 }
 
-type Query {
-  test(name: String): String!
-  today(date: DateInput, locale: String! = "en-US", location: LocationInput!, madhab: Int! = 1, method: String! = "MWL", timeZone: String! = "America/Toronto", timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]): PrayerTimes!
+"""Parameters used for the calculation of prayer times."""
+type PrayerTimesParams {
+  """Locale used for date to string conversions."""
+  locale: String!
+
+  """
+  The location used for the calculation. Always includes `lat` and `lng`.
+  """
+  location: LocationType!
+
+  """The name of the madhab used for Asr calculation."""
+  madhab: String!
+
+  """
+  The name of the calculation method used for the Fajr and Isha calculations.
+  """
+  method: String!
+
+  """A timezone according to the IANA database."""
+  timeZone: String!
 }
 
+type Query {
+  """Calculates specified prayer timings for a provided date."""
+  byDate(
+    """
+    The date to calculate for. If `null`, uses the date now in the provided timezone.
+    """
+    date: DateInput
+
+    """
+    The locale to use for date outputs as per the JavaScript documentation.
+    """
+    locale: String! = "en-US"
+
+    """The location to calculate timings for."""
+    location: LocationInput!
+
+    """
+    The madhab (school of thought) used for Asr time calculation. 1 for Hanafi, 2 for Shafi (Hanbali and Maliki as well). The Ahnaf (Hanafi's) use a later time for Asr calculation. See docs for more details.
+    """
+    madhab: Int! = 1
+
+    """
+    The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: `MWL,ISNA,Egypt`. See docs for more details about this parameter.
+    """
+    method: String! = "MWL"
+
+    """
+    The timezone to use for the calculation as per the IANA database. If the location and timezone do not match up, there will likely be errors.
+    """
+    timeZone: String! = "America/Toronto"
+
+    """
+    A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`
+    """
+    timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]
+  ): PrayerTimes!
+
+  """
+  Calculates specified prayer times for a provided range of dates [`start`, `end`]. Must be at least 2 days in the range.
+  """
+  byRange(
+    end: DateInput!
+
+    """
+    The locale to use for date outputs as per the JavaScript documentation.
+    """
+    locale: String! = "en-US"
+    location: LocationInput!
+
+    """
+    The madhab (school of thought) used for Asr time calculation. 1 for Hanafi, 2 for Shafi (Hanbali and Maliki as well). The Ahnaf (Hanafi's) use a later time for Asr calculation. See docs for more details.
+    """
+    madhab: Int! = 1
+
+    """
+    The calculation method to use for calculation. Relevant for Fajr and Isha calculations. Must be one of the following: `MWL,ISNA,Egypt`. See docs for more details about this parameter.
+    """
+    method: String! = "MWL"
+    start: DateInput!
+
+    """
+    The timezone to use for the calculation as per the IANA database. If the location and timezone do not match up, there will likely be errors.
+    """
+    timeZone: String! = "America/Toronto"
+
+    """
+    A list of timings to calculate. Valid options are from the following: `fajr,sunrise,dhuhr,asr,maghrib,isha,midnight`
+    """
+    timings: [String!]! = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"]
+  ): [PrayerTimes!]!
+}
+
+"""Object that stores a date in different formats."""
 type TimeField {
+  """The hour value in 24h format."""
   hour: Int!
+
+  """The time as a string according the locale provided."""
   localeString: String!
+
+  """The millisecond value."""
   millisecond: Int!
+
+  """The minute value."""
   minute: Int!
+
+  """The second value."""
   second: Int!
 }
 
@@ -60,5 +195,7 @@ scalar Timestamp
 
 type Timing {
   datetime: Datetime!
+
+  """Name of the prayer time."""
   name: String!
 }

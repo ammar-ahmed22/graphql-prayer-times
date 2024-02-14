@@ -19,22 +19,30 @@ class Duration {
    * Gets the duration in seconds
    */
   public getSeconds(): number {
-    return this.ms / 1000;
+    return this.getMilliseconds() / 1000;
   }
 
   /**
    * Gets the duration in minutes
    */
   public getMinutes(): number {
-    return this.ms / (60 * 1000);
+    return this.getSeconds() / 60;
   }
 
   /**
    * Gets the duration in hours
    */
   public getHours(): number {
-    return this.ms / (60 * 60 * 1000);
+    return this.getMinutes() / 60;
   }
+
+  /**
+   * Gets the duration in days
+   */
+  public getDays(): number {
+    return this.getHours() / 24; 
+  }
+  
 
   /**
    * Creates a Duration object from a value in hours
