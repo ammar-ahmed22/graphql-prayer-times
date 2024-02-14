@@ -13,7 +13,7 @@ class Timing implements TimingProps {
     this.datetime = new Datetime(date, locale);
   }
 
-  @Field({ description: "Name of the prayer time."})
+  @Field({ description: "Name of the prayer time." })
   public name: string;
 
   @Field(returns => Datetime)

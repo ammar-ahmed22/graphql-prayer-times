@@ -16,7 +16,10 @@ export function normalizeHour(hour: number): number {
  * @param timeZone A string representing the timezone as per the IANA database
  * @param date An optional date to get the timezone offset for that specific day (relevant for DST times)
  */
-export function getTimezoneOffset(timeZone: string, date?: Date): number {
+export function getTimezoneOffset(
+  timeZone: string,
+  date?: Date,
+): number {
   // The date in the system timezone
   let localDate = new Date();
   if (date) {
@@ -45,9 +48,9 @@ export function getTimezoneOffset(timeZone: string, date?: Date): number {
 
   // Handling the case where it is at the end of a month (difference can never be more than a day, so, just change it to be -1 or 1)
   if (Math.abs(daysDiff) > 1) {
-    daysDiff = Math.sign(daysDiff)
+    daysDiff = Math.sign(daysDiff);
   }
-  const offset = hoursDiff + (daysDiff * 24);
+  const offset = hoursDiff + daysDiff * 24;
 
   return offset;
 }
@@ -79,30 +82,34 @@ export function timezoneConvert(timeZone: string, date: Date): Date {
 
 /**
  * Creates a range of dates from [`start`, `end`] given a `step` size
- * 
+ *
  * **NOTE**: As it is an inclusive range, the last element may not be exactly 1 step size away.
- * 
+ *
  * @param start The date to start the range with (inclusive)
  * @param end The date to end the range with (inclusive)
  * @param step The step size
  */
-export function dateRange(start: Date, end: Date, step: Duration): Date[] {
+export function dateRange(
+  start: Date,
+  end: Date,
+  step: Duration,
+): Date[] {
   let diff = Duration.fromDifference(start, end);
   if (diff.getMilliseconds() < 0) {
-    throw new Error("start date must be before end date!")
+    throw new Error("start date must be before end date!");
   }
 
   if (diff.getMilliseconds() === 0) {
-    throw new Error("start and end date cannot be the same!")
+    throw new Error("start and end date cannot be the same!");
   }
 
   if (diff.getMilliseconds() < step.getMilliseconds()) {
-    throw new Error("step size is too small!")
+    throw new Error("step size is too small!");
   }
 
   let range: Date[] = [start];
   let curr = start;
-  while(Duration.add(curr, step).getTime() < end.getTime()) {
+  while (Duration.add(curr, step).getTime() < end.getTime()) {
     let next = Duration.add(curr, step);
     range.push(next);
     curr = next;

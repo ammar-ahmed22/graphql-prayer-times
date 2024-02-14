@@ -5,10 +5,7 @@ import {
   Args,
 } from "type-graphql";
 import PrayerTimes, { TimingNameInput } from "../models/PrayerTimes";
-import {
-  Methods,
-  SalahOptions,
-} from "../utils/Salah";
+import { Methods, SalahOptions } from "../utils/Salah";
 import { find } from "geo-tz";
 import { dateRange, timezoneConvert } from "../utils/time";
 import Duration from "../utils/Duration";
@@ -18,15 +15,31 @@ import LocationInput from "../inputs/LocationInput";
 
 @ResolverType()
 class Resolver {
-
-  @Query(returns => PrayerTimes, { description: "Calculates specified prayer timings for a provided date."})
+  @Query(returns => PrayerTimes, {
+    description:
+      "Calculates specified prayer timings for a provided date.",
+  })
   async byDate(
-    @Arg("location", { validate: true, description: "The location to calculate timings for." }) location: LocationInput,
-    @Arg("calculation", { validate: true, nullable: true, description: "Parameters used for calculation. If `null`, uses defaults." }) calculation?: CalculationInput,
-    @Arg("date", { validate: true, nullable: true, description: "The date to calculate for. If `null`, uses the date now in the provided timezone." })
+    @Arg("location", {
+      validate: true,
+      description: "The location to calculate timings for.",
+    })
+    location: LocationInput,
+    @Arg("calculation", {
+      validate: true,
+      nullable: true,
+      description:
+        "Parameters used for calculation. If `null`, uses defaults.",
+    })
+    calculation?: CalculationInput,
+    @Arg("date", {
+      validate: true,
+      nullable: true,
+      description:
+        "The date to calculate for. If `null`, uses the date now in the provided timezone.",
+    })
     dateInput?: DateInput,
   ) {
-
     if (!calculation) calculation = new CalculationInput();
     let { timeZone, madhab, method, timings, locale } = calculation;
     const [lat, lng] = await location.getCoords();
@@ -34,7 +47,10 @@ class Resolver {
 
     if (!timeZone) {
       timeZone = find(lat, lng)[0];
-      if (!timeZone) throw new Error("Could not find a timezone based on the provided location!")
+      if (!timeZone)
+        throw new Error(
+          "Could not find a timezone based on the provided location!",
+        );
     }
 
     let date: Date;
@@ -57,17 +73,48 @@ class Resolver {
       timingsObj[timing] = true;
     });
 
-    return new PrayerTimes(salahOpts, timingsObj, date, locale, location);
+    return new PrayerTimes(
+      salahOpts,
+      timingsObj,
+      date,
+      locale,
+      location,
+    );
   }
 
-  @Query(returns => [PrayerTimes], { description: "Calculates specified prayer times for a provided range of dates [`start`, `end`]. Must be at least 2 days in the range."})
+  @Query(returns => [PrayerTimes], {
+    description:
+      "Calculates specified prayer times for a provided range of dates [`start`, `end`]. Must be at least 2 days in the range.",
+  })
   async byRange(
-    @Arg("location", { validate: true, description: "The location to calculate timings for." }) location: LocationInput,
-    @Arg("start", { validate: true, description: "The `start` date for the range." }) start: DateInput,
-    @Arg("end", { validate: true, description: "The `end` date for the range." }) end: DateInput,
-    @Arg("calculation", { validate: true, nullable: true, description: "Parameters used for calculation. If `null`, uses defaults." }) calculation?: CalculationInput,
+    @Arg("location", {
+      validate: true,
+      description: "The location to calculate timings for.",
+    })
+    location: LocationInput,
+    @Arg("start", {
+      validate: true,
+      description: "The `start` date for the range.",
+    })
+    start: DateInput,
+    @Arg("end", {
+      validate: true,
+      description: "The `end` date for the range.",
+    })
+    end: DateInput,
+    @Arg("calculation", {
+      validate: true,
+      nullable: true,
+      description:
+        "Parameters used for calculation. If `null`, uses defaults.",
+    })
+    calculation?: CalculationInput,
   ) {
-    const range = dateRange(start.date, end.date, Duration.fromHours(24))
+    const range = dateRange(
+      start.date,
+      end.date,
+      Duration.fromHours(24),
+    );
     if (!calculation) calculation = new CalculationInput();
 
     let { timeZone, madhab, method, timings, locale } = calculation;
@@ -75,7 +122,10 @@ class Resolver {
     location.setCoords([lat, lng]);
     if (!timeZone) {
       timeZone = find(lat, lng)[0];
-      if (!timeZone) throw new Error("Could not find a timezone based on the provided location!")
+      if (!timeZone)
+        throw new Error(
+          "Could not find a timezone based on the provided location!",
+        );
     }
 
     const salahOpts: SalahOptions = {
@@ -84,16 +134,22 @@ class Resolver {
       timeZone,
       madhab,
       method: Methods[method],
-    }
+    };
 
     let timingsObj: TimingNameInput = {};
     timings.forEach(timing => {
       timingsObj[timing] = true;
-    })
+    });
 
     return range.map(date => {
-      return new PrayerTimes(salahOpts, timingsObj, date, locale, location)
-    })
+      return new PrayerTimes(
+        salahOpts,
+        timingsObj,
+        date,
+        locale,
+        location,
+      );
+    });
   }
 
   // TODO Query for all methods

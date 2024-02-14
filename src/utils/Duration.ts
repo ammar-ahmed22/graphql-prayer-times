@@ -42,9 +42,8 @@ class Duration {
    * Gets the duration in days
    */
   public getDays(): number {
-    return this.getHours() / 24; 
+    return this.getHours() / 24;
   }
-  
 
   /**
    * Creates a Duration object from a value in hours

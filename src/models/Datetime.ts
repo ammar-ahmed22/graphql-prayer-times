@@ -8,7 +8,7 @@ type DateFieldProps = {
 };
 
 @ObjectType({
-  description: "Object that stores a date in different formats."
+  description: "Object that stores a date in different formats.",
 })
 export class DateField implements DateFieldProps {
   constructor(date: Date, locale: string) {
@@ -20,13 +20,18 @@ export class DateField implements DateFieldProps {
   @Field(returns => Int, { description: "The year value." })
   public year: number;
 
-  @Field(returns => Int, { description: "The month value from 1-12." })
+  @Field(returns => Int, {
+    description: "The month value from 1-12.",
+  })
   public month: number;
 
   @Field(returns => Int, { description: "The day value from 1-31" })
   public day: number;
 
-  @Field(returns => String, { description: "The date as a string according to the locale provided." })
+  @Field(returns => String, {
+    description:
+      "The date as a string according to the locale provided.",
+  })
   public localeString: string;
 }
 
@@ -39,7 +44,7 @@ type TimeFieldProps = {
 };
 
 @ObjectType({
-  description: "Object that stores a date in different formats."
+  description: "Object that stores a date in different formats.",
 })
 export class TimeField implements TimeFieldProps {
   constructor(date: Date, locale: string) {
@@ -50,7 +55,9 @@ export class TimeField implements TimeFieldProps {
     this.localeString = date.toLocaleTimeString(locale);
   }
 
-  @Field(returns => Int, { description: "The hour value in 24h format."})
+  @Field(returns => Int, {
+    description: "The hour value in 24h format.",
+  })
   public hour: number;
 
   @Field(returns => Int, { description: "The minute value." })
@@ -62,7 +69,10 @@ export class TimeField implements TimeFieldProps {
   @Field(returns => Int, { description: "The millisecond value." })
   public millisecond: number;
 
-  @Field(returns => String, { description: "The time as a string according the locale provided." })
+  @Field(returns => String, {
+    description:
+      "The time as a string according the locale provided.",
+  })
   public localeString: string;
 }
 
@@ -73,7 +83,10 @@ type DatetimeProps = {
   locale: string;
 };
 
-@ObjectType({ description: "Object that stores date and time in different formats." })
+@ObjectType({
+  description:
+    "Object that stores date and time in different formats.",
+})
 class Datetime implements DatetimeProps {
   constructor(date: Date, locale: string) {
     this.timestamp = date;
@@ -83,7 +96,9 @@ class Datetime implements DatetimeProps {
     this.locale = locale;
   }
 
-  @Field({ description: "The amount of milliseconds since the epoch." })
+  @Field({
+    description: "The amount of milliseconds since the epoch.",
+  })
   public timestamp: Date;
 
   @Field(returns => DateField)
@@ -95,8 +110,11 @@ class Datetime implements DatetimeProps {
   @Field(returns => String, { description: "The locale used." })
   public locale: string;
 
-  @Field(returns => String, { description: "The date and time as a string according to the locale provided." })
-  public localeString: string
+  @Field(returns => String, {
+    description:
+      "The date and time as a string according to the locale provided.",
+  })
+  public localeString: string;
 }
 
 export default Datetime;

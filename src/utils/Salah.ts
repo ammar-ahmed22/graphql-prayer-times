@@ -216,7 +216,11 @@ class Salah {
    * @param jd The Julian date to calculate for.
    * @param tzOffset The timezone offset to calculate for.
    */
-  private shadowLengthHour(length: number, jd: number, tzOffset: number) {
+  private shadowLengthHour(
+    length: number,
+    jd: number,
+    tzOffset: number,
+  ) {
     let [_, decl] = this.sunCoords(jd);
     let At =
       (1 / 15) *
@@ -248,7 +252,12 @@ class Salah {
   private fajr(date: Date): Date {
     let angle = this.method.fajrParam as number;
     let jd = this.julian(date);
-    let hour = this.horizonHourAngle(angle, jd, getTimezoneOffset(this.timeZone, date), -1);
+    let hour = this.horizonHourAngle(
+      angle,
+      jd,
+      getTimezoneOffset(this.timeZone, date),
+      -1,
+    );
     return this.hour2date(hour, date);
   }
 
@@ -259,7 +268,12 @@ class Salah {
    */
   private sunrise(date: Date): Date {
     let jd = this.julian(date);
-    let hour = this.horizonHourAngle(0.833, jd, getTimezoneOffset(this.timeZone, date), -1);
+    let hour = this.horizonHourAngle(
+      0.833,
+      jd,
+      getTimezoneOffset(this.timeZone, date),
+      -1,
+    );
     return this.hour2date(hour, date);
   }
 
@@ -270,7 +284,10 @@ class Salah {
    */
   private dhuhr(date: Date): Date {
     let jd = this.julian(date);
-    let hour = this.zenith(jd, getTimezoneOffset(this.timeZone, date));
+    let hour = this.zenith(
+      jd,
+      getTimezoneOffset(this.timeZone, date),
+    );
     return this.hour2date(hour, date);
   }
 
@@ -281,7 +298,11 @@ class Salah {
    */
   private asr(date: Date): Date {
     let jd = this.julian(date);
-    let hour = this.shadowLengthHour(this.madhab, jd, getTimezoneOffset(this.timeZone, date));
+    let hour = this.shadowLengthHour(
+      this.madhab,
+      jd,
+      getTimezoneOffset(this.timeZone, date),
+    );
     return this.hour2date(hour, date);
   }
 
@@ -292,7 +313,12 @@ class Salah {
    */
   private maghrib(date: Date): Date {
     let jd = this.julian(date);
-    let hour = this.horizonHourAngle(0.833, jd, getTimezoneOffset(this.timeZone, date), 1);
+    let hour = this.horizonHourAngle(
+      0.833,
+      jd,
+      getTimezoneOffset(this.timeZone, date),
+      1,
+    );
     return this.hour2date(hour, date);
   }
 
@@ -304,7 +330,12 @@ class Salah {
   private isha(date: Date): Date {
     let angle = this.method.ishaParam as number;
     let jd = this.julian(date);
-    let hour = this.horizonHourAngle(angle, jd, getTimezoneOffset(this.timeZone, date), 1);
+    let hour = this.horizonHourAngle(
+      angle,
+      jd,
+      getTimezoneOffset(this.timeZone, date),
+      1,
+    );
     return this.hour2date(hour, date);
   }
 

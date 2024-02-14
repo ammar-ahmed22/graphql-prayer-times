@@ -4,34 +4,48 @@ import Salah, { SalahOptions, TimingName } from "../utils/Salah";
 import Datetime, { DateField } from "./Datetime";
 import LocationInput from "../inputs/LocationInput";
 
-@ObjectType({ description: "Parameters used for the calculation of prayer times." })
+@ObjectType({
+  description: "Parameters used for the calculation of prayer times.",
+})
 export class PrayerTimesParams {
   constructor(
     salahOpts: SalahOptions,
     location: LocationInput,
     locale: string,
   ) {
-    this.timeZone = salahOpts.timeZone
+    this.timeZone = salahOpts.timeZone;
     this.method = salahOpts.method?.fullName;
     this.locale = locale;
-    this.madhab = salahOpts.madhab === 2 ? "Hanafi" : "Shafi" 
+    this.madhab = salahOpts.madhab === 2 ? "Hanafi" : "Shafi";
     this.location = location;
   }
 
-  @Field({ description: "A timezone according to the IANA database." })
-  public timeZone?: string
+  @Field({
+    description: "A timezone according to the IANA database.",
+  })
+  public timeZone?: string;
 
-  @Field({ description: "Locale used for date to string conversions." })
-  public locale?: string
+  @Field({
+    description: "Locale used for date to string conversions.",
+  })
+  public locale?: string;
 
-  @Field({ description: "The name of the madhab used for Asr calculation." })
-  public madhab?: string
+  @Field({
+    description: "The name of the madhab used for Asr calculation.",
+  })
+  public madhab?: string;
 
-  @Field({ description: "The name of the calculation method used for the Fajr and Isha calculations."})
-  public method?: string
+  @Field({
+    description:
+      "The name of the calculation method used for the Fajr and Isha calculations.",
+  })
+  public method?: string;
 
-  @Field(type => LocationInput, { description: "The location used for the calculation. Always includes `lat` and `lng`."})
-  public location: LocationInput
+  @Field(type => LocationInput, {
+    description:
+      "The location used for the calculation. Always includes `lat` and `lng`.",
+  })
+  public location: LocationInput;
 }
 
 export type TimingNameInput = {
@@ -46,7 +60,7 @@ class PrayerTimes {
     timingNames: TimingNameInput,
     date: Date,
     locale: string,
-    location: LocationInput
+    location: LocationInput,
   ) {
     this.salah = new Salah(salahOpts);
     let timings: Timing[] = [];

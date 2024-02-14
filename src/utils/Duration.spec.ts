@@ -14,8 +14,8 @@ describe("Duration", () => {
     let plus24 = Duration.fromHours(24);
     let tom = new Date();
     tom.setDate(today.getDate() + 1);
-    expect(Duration.add(today, plus24).getTime() / 1000 / 60 / 60).toBeCloseTo(
-      tom.getTime() / 1000 / 60 / 60
-    );
+    expect(
+      Duration.add(today, plus24).getTime() / 1000 / 60 / 60,
+    ).toBeCloseTo(tom.getTime() / 1000 / 60 / 60);
   });
 });
