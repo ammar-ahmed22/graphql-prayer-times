@@ -188,7 +188,10 @@ import Resolver from "./resolvers";
   // the graphql server
   const server = new ApolloServer({
     schema,
+    introspection: true
   });
+
+  console.log("ENV:", process.env.NODE_ENV);
 
   await server.start();
 
