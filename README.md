@@ -40,6 +40,22 @@ The location input can be provided in 3 distinct ways:
 > [!WARNING]
 > Providing the `LocationInput` with a combination of any of the above 3 methods will throw a validation error.
 
+### `DateInput`
+```graphql
+input DateInput {
+  day: Int
+  month: Int
+  string: String
+  year: Int
+}
+```
+The date input can be provided in 2 distinct ways:
+1. only `string`: Must be an ISO8601 date string (`YYYY-MM-DD`)
+2. `year`, `month`, and `day`: All values must be valid (i.e. `month` cannot be `14`)
+
+> [!WARNING]
+> Providing the `DateInput` with a combination of the 2 methods will throw a validation error.
+
 ## Examples
 ### Get all times for Toronto, Canada
 #### Query
