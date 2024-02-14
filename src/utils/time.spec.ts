@@ -10,9 +10,17 @@ describe("getTimezoneOffset", () => {
 
   it("calulate the GMT timezone offset for a specified date", () => {
     let mar9 = new Date(2024, 2, 9); // GMT-5 
+    
     let mar11 = new Date(2024, 2, 11); // GMT-4 (DST ends)
     expect(getTimezoneOffset("America/Toronto", mar9)).toBe(-5);
     expect(getTimezoneOffset("America/Toronto", mar11)).toBe(-4);
+  })
+
+  it("calculates the GMT timezone offset correctly for when the DST changes", () => {
+    let mar10_0 = new Date(2024, 2, 10, 0);
+    let mar10_3 = new Date(2024, 2, 10, 3);
+    expect(getTimezoneOffset("America/Toronto", mar10_0)).toBe(-5);
+    expect(getTimezoneOffset("America/Toronto", mar10_3)).toBe(-4);
   })
 });
 

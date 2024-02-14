@@ -1,3 +1,5 @@
+import { getTimezoneOffset } from "./time";
+
 /**
  * Object representing time durations
  */

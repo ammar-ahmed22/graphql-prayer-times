@@ -37,10 +37,17 @@ export function getTimezoneOffset(timeZone: string, date?: Date): number {
   // Create another date with the time set to the time in the required timezone
   const tzDate = timezoneConvert(timeZone, localDate);
 
-  // Calculate the difference of the timezone date from UTC (GMT0)
-  const diff = Duration.fromDifference(utcDate, tzDate);
-  // GMT offset in hours
-  const offset = diff.getHours();
+  // The difference in hours
+  let hoursDiff = tzDate.getHours() - utcDate.getHours();
+
+  // The difference in days (for when the time in UTC is on a different day)
+  let daysDiff = tzDate.getDate() - utcDate.getDate();
+
+  // Handling the case where it is at the end of a month (difference can never be more than a day, so, just change it to be -1 or 1)
+  if (Math.abs(daysDiff) > 1) {
+    daysDiff = Math.sign(daysDiff)
+  }
+  const offset = hoursDiff + (daysDiff * 24);
 
   return offset;
 }
