@@ -1,9 +1,32 @@
-import { ArgsType, Field, Float, Int, ObjectType } from "type-graphql";
-import { MethodName, Madhab, isMethodName, TimingName, isTimingName } from "../utils/Salah";
+import {
+  ArgsType,
+  Field,
+  Float,
+  Int,
+  ObjectType,
+} from "type-graphql";
+import {
+  MethodName,
+  Madhab,
+  isMethodName,
+  TimingName,
+  isTimingName,
+} from "../utils/Salah";
 import { Min, Max, ArrayContains } from "class-validator";
-import { IsStringUnion, ArrayIsStringUnion } from "../validation/IsStringUnion";
+import {
+  IsStringUnion,
+  ArrayIsStringUnion,
+} from "../validation/IsStringUnion";
 
-let ALL_TIMES: TimingName[] = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha", "midnight"];
+let ALL_TIMES: TimingName[] = [
+  "fajr",
+  "sunrise",
+  "dhuhr",
+  "asr",
+  "maghrib",
+  "isha",
+  "midnight",
+];
 
 @ObjectType()
 @ArgsType()
@@ -24,15 +47,15 @@ class CalculationInput {
   @Max(2)
   public madhab: Madhab = Madhab.Shafi;
 
-  @Field(type => String, { defaultValue: "America/Toronto"})
-  public timeZone: string = "America/Toronto"
+  @Field(type => String, { defaultValue: "America/Toronto" })
+  public timeZone: string = "America/Toronto";
 
   @Field(type => String, { defaultValue: "en-US" })
-  public locale: string = "en-US"
+  public locale: string = "en-US";
 
   @Field(type => [String], { defaultValue: ALL_TIMES })
   @ArrayIsStringUnion(isTimingName, "TimingName")
-  public timings: TimingName[] = ALL_TIMES
+  public timings: TimingName[] = ALL_TIMES;
 }
 
 export default CalculationInput;

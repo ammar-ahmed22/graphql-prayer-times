@@ -1,5 +1,3 @@
-
-
 /**
  * Normalizes a value to the range [0, max]
  *
@@ -16,7 +14,6 @@ export function normalize(v: number, max: number): number {
   return normalized;
 }
 
-
 /**
  * Converts radians value to degrees
  *
@@ -26,7 +23,6 @@ export function normalize(v: number, max: number): number {
 export function rad2deg(rad: number): number {
   return rad * (180 / Math.PI);
 }
-
 
 /**
  * Converts degrees value to radians
@@ -42,7 +38,6 @@ export function deg2rad(deg: number): number {
  * An object the provides mathematical functions related to trigonometry in degrees.
  */
 export namespace DMath {
-  
   /**
    * Normalizes an angle in degrees to the range [0, 360]
    *
@@ -53,40 +48,39 @@ export namespace DMath {
     return normalize(angle, 360);
   }
 
-  
   /**
    * Returns the sine of an angle
    *
    * @export
-   * @param {number} x A numeric expression that contains an angle measured in degrees 
+   * @param {number} x A numeric expression that contains an angle measured in degrees
    */
   export function sin(x: number): number {
-    return Math.sin(deg2rad(x))
+    return Math.sin(deg2rad(x));
   }
 
   /**
    * Returns the cosine of an angle
    *
    * @export
-   * @param {number} x A numeric expression that contains an angle measured in degrees 
+   * @param {number} x A numeric expression that contains an angle measured in degrees
    */
   export function cos(x: number): number {
-    return Math.cos(deg2rad(x))
+    return Math.cos(deg2rad(x));
   }
 
   /**
    * Returns the tangent of an angle
    *
    * @export
-   * @param {number} x A numeric expression that contains an angle measured in degrees 
+   * @param {number} x A numeric expression that contains an angle measured in degrees
    */
   export function tan(x: number): number {
-    return Math.tan(deg2rad(x))
+    return Math.tan(deg2rad(x));
   }
 
   /**
    * Returns the angle (in degrees) from the X axis to a point
-   * 
+   *
    * @param {number} y A numeric expression representing the cartesian y-coordinate.
    * @param {number} x A numeric expression representing the cartesian x-coordinate.
    */
@@ -96,9 +90,9 @@ export namespace DMath {
 
   /**
    * Returns the arcsine of a number in degrees
-   * 
+   *
    * @param x A numeric expression
-   * @returns 
+   * @returns
    */
   export function asin(x: number): number {
     return rad2deg(Math.asin(x));
@@ -106,9 +100,9 @@ export namespace DMath {
 
   /**
    * Returns the arccosine of a number in degrees
-   * 
+   *
    * @param x A numeric expression
-   * @returns 
+   * @returns
    */
   export function acos(x: number): number {
     return rad2deg(Math.acos(x));
@@ -116,9 +110,9 @@ export namespace DMath {
 
   /**
    * Returns the arctangent of a number in degrees
-   * 
+   *
    * @param x A numeric expression
-   * @returns 
+   * @returns
    */
   export function atan(x: number): number {
     return rad2deg(Math.atan(x));
@@ -126,9 +120,9 @@ export namespace DMath {
 
   /**
    * Returns the arccotangent of a number in degrees
-   * 
+   *
    * @param x A numeric expression
-   * @returns 
+   * @returns
    */
   export function acot(x: number): number {
     return rad2deg(Math.atan(1 / x));

@@ -1,9 +1,8 @@
-
 /**
  * Object representing time durations
  */
 class Duration {
-  private ms: number
+  private ms: number;
   constructor(ms: number = 0) {
     this.ms = ms;
   }
@@ -14,8 +13,8 @@ class Duration {
    */
   public getMilliseconds(): number {
     return this.ms;
-  };
-  
+  }
+
   /**
    * Gets the duration in seconds
    */
@@ -39,7 +38,7 @@ class Duration {
 
   /**
    * Creates a Duration object from a value in hours
-   * 
+   *
    * @param hours A numerical expression representing the hours
    */
   static fromHours(hours: number): Duration {
@@ -49,7 +48,7 @@ class Duration {
 
   /**
    * Creates a Duration object from a value in minutes
-   * 
+   *
    * @param minutes A numerical expression representing the minutes
    */
   static fromMinutes(minutes: number): Duration {
@@ -59,7 +58,7 @@ class Duration {
 
   /**
    * Creates a Duration object from a value in seconds
-   * 
+   *
    * @param seconds A numerical expression representing the seconds
    */
   static fromSeconds(seconds: number): Duration {
@@ -69,7 +68,7 @@ class Duration {
 
   /**
    * Creates a Duration object from a value in milliseconds
-   * 
+   *
    * @param ms A numerical expression representing the milliseconds
    */
   static fromMilliseconds(ms: number): Duration {
@@ -78,10 +77,10 @@ class Duration {
 
   /**
    * Creates a Duration object from the difference between two dates (b - a)
-   * 
-   * @param a Date object 
+   *
+   * @param a Date object
    * @param b Date object
-   * @returns 
+   * @returns
    */
   static fromDifference(a: Date, b: Date): Duration {
     const ms = b.getTime() - a.getTime();
@@ -89,16 +88,15 @@ class Duration {
   }
 
   /**
-   * Creates a Duration object by adding a duration to a dat 
-   * 
+   * Creates a Duration object by adding a duration to a dat
+   *
    * @param date The date to add the duration to
    * @param duration The duration to add
-   * @returns 
+   * @returns
    */
   static add(date: Date, duration: Duration): Date {
     return new Date(date.getTime() + duration.getMilliseconds());
   }
 }
-
 
 export default Duration;

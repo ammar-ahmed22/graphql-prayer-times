@@ -1,13 +1,11 @@
 import { ObjectType, Field, Int, ArgsType } from "type-graphql";
 
-
-
 type DateFieldProps = {
-  year: number,
-  month: number,
-  day: number,
-  localeString: string,
-}
+  year: number;
+  month: number;
+  day: number;
+  localeString: string;
+};
 
 @ObjectType()
 export class DateField implements DateFieldProps {
@@ -18,26 +16,25 @@ export class DateField implements DateFieldProps {
     this.localeString = date.toLocaleDateString(locale);
   }
   @Field(returns => Int)
-  public year: number
+  public year: number;
 
   @Field(returns => Int)
-  public month: number
+  public month: number;
 
   @Field(returns => Int)
-  public day: number
+  public day: number;
 
   @Field(returns => String)
-  public localeString: string
-
+  public localeString: string;
 }
 
 type TimeFieldProps = {
-  hour: number,
-  minute: number,
-  second: number,
-  millisecond: number,
-  localeString: string,
-}
+  hour: number;
+  minute: number;
+  second: number;
+  millisecond: number;
+  localeString: string;
+};
 
 @ObjectType()
 export class TimeField implements TimeFieldProps {
@@ -66,11 +63,11 @@ export class TimeField implements TimeFieldProps {
 }
 
 type DatetimeProps = {
-  timestamp: Date,
-  date: DateField,
-  time: TimeField,
-  locale: string,
-}
+  timestamp: Date;
+  date: DateField;
+  time: TimeField;
+  locale: string;
+};
 
 @ObjectType()
 class Datetime implements DatetimeProps {
@@ -82,17 +79,16 @@ class Datetime implements DatetimeProps {
   }
 
   @Field()
-  public timestamp: Date
+  public timestamp: Date;
 
   @Field(returns => DateField)
-  public date: DateField
+  public date: DateField;
 
   @Field(returns => TimeField)
   public time: TimeField;
 
   @Field(returns => String)
-  public locale: string
-  
+  public locale: string;
 }
 
 export default Datetime;

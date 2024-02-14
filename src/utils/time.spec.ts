@@ -5,8 +5,8 @@ describe("getTimezoneOffset", () => {
     // These do not observe DST
     expect(getTimezoneOffset("Asia/Karachi")).toBe(5);
     expect(getTimezoneOffset("Asia/Shanghai")).toBe(8);
-  })
-})
+  });
+});
 
 describe("timezoneConvert", () => {
   it("converts a date to a specified timezone", () => {
@@ -16,7 +16,7 @@ describe("timezoneConvert", () => {
 
     expect(shanghaiNow.getFullYear()).toBe(2024);
     expect(shanghaiNow.getMonth()).toBe(1);
-    expect(shanghaiNow.getDate()).toBe(14) // date changed
-    expect(shanghaiNow.getHours()).toBe(1) // 1 am
-  })
-})
+    expect(shanghaiNow.getDate()).toBe(14); // date changed
+    expect(shanghaiNow.getHours()).toBe(1); // 1 am
+  });
+});

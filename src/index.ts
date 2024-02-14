@@ -1,17 +1,17 @@
-import "reflect-metadata" // Required for TypeGraphQL
+import "reflect-metadata"; // Required for TypeGraphQL
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4"
+import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
 import cors from "cors";
-// import { 
-//   ObjectType, 
-//   Resolver, 
-//   Int, 
-//   Field, 
-//   Query, 
-//   Arg, 
-//   buildSchema, 
-//   Mutation 
+// import {
+//   ObjectType,
+//   Resolver,
+//   Int,
+//   Field,
+//   Query,
+//   Arg,
+//   buildSchema,
+//   Mutation
 // } from "type-graphql";
 import { buildSchema, GraphQLTimestamp } from "type-graphql";
 import Resolver from "./resolvers";
@@ -19,9 +19,9 @@ import Resolver from "./resolvers";
 // User Type
 // @ObjectType()
 // class User{
-//   constructor(params : { 
-//     username: string, 
-//     email: string, 
+//   constructor(params : {
+//     username: string,
+//     email: string,
 //     phoneNumber: string,
 //     firstName: string,
 //     lastName: string,
@@ -173,22 +173,21 @@ import Resolver from "./resolvers";
 
 // }
 
-( async () => {
-
+(async () => {
   const schema = await buildSchema({
     resolvers: [Resolver],
     emitSchemaFile: {
       path: __dirname + "/schema.gql", // this wil generate a graphql schema file for us to look at
     },
     scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
-    validate: true
-  })
+    validate: true,
+  });
 
   const app = express(); // the express server
-  
+
   // the graphql server
   const server = new ApolloServer({
-    schema
+    schema,
   });
 
   await server.start();
@@ -197,12 +196,15 @@ import Resolver from "./resolvers";
     "/graphql", // the endpoint where our graphql server is hosted
     cors<cors.CorsRequest>(), // cors middleware
     express.json(), // parsing request body to json middleware
-    expressMiddleware(server) // middleware for apollo server
-  )
-    
+    expressMiddleware(server), // middleware for apollo server
+  );
+
   const PORT = process.env.PORT || 8080;
 
   // Starting express server
-  app.listen(PORT, () => console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`));
-
-})()
+  app.listen(PORT, () =>
+    console.log(
+      `🚀 Server ready at http://localhost:${PORT}/graphql`,
+    ),
+  );
+})();
