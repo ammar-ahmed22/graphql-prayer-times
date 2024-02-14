@@ -14,7 +14,7 @@ export class PrayerTimesParams {
     this.timeZone = salahOpts.timeZone
     this.method = salahOpts.method?.fullName;
     this.locale = locale;
-    this.madhab = salahOpts.madhab === 1 ? "Hanafi" : "Shafi" 
+    this.madhab = salahOpts.madhab === 2 ? "Hanafi" : "Shafi" 
     this.location = location;
   }
 
