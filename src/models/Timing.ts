@@ -6,7 +6,7 @@ export type TimingProps = {
   datetime: Datetime;
 };
 
-@ObjectType()
+@ObjectType({ description: "Object that contains a name and datetime data."})
 class Timing implements TimingProps {
   constructor(name: string, date: Date, locale: string) {
     this.name = name;
@@ -16,7 +16,7 @@ class Timing implements TimingProps {
   @Field({ description: "Name of the prayer time." })
   public name: string;
 
-  @Field(returns => Datetime)
+  @Field(returns => Datetime, { description: "The date and time of the prayer time."})
   public datetime: Datetime;
 }
 

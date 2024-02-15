@@ -101,10 +101,10 @@ class Datetime implements DatetimeProps {
   })
   public timestamp: Date;
 
-  @Field(returns => DateField)
+  @Field(returns => DateField, { description: "The date in various formats."})
   public date: DateField;
 
-  @Field(returns => TimeField)
+  @Field(returns => TimeField, { description: "The time in various formats."})
   public time: TimeField;
 
   @Field(returns => String, { description: "The locale used." })

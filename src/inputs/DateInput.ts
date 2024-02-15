@@ -9,25 +9,25 @@ import { Min, Max } from "class-validator";
     "An input for dates. year, month, and day inputs can be provided OR an ISO8601 (YYYY-MM-DD) date string. Either provide a string OR the year, month, day values. They cannot be provided together.",
 })
 class DateInput {
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int, { nullable: true, description: "The year in the Gregorian calendar." })
   @OnlyWith(["day", "month"])
   @OnlyWithout("string")
   year: number;
 
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int, { nullable: true, description: "Month of the year from 1-12." })
   @OnlyWith(["day", "year"])
   @OnlyWithout("string")
   @Min(1)
   @Max(12)
   month: number;
 
-  @Field(type => Int, { nullable: true })
+  @Field(type => Int, { nullable: true, description: "Day of the month from 1-31." })
   @OnlyWith(["year", "month"])
   @Min(1)
   @Max(31)
   day: number;
 
-  @Field(type => String, { nullable: true })
+  @Field(type => String, { nullable: true, description: "An ISO8601 date string (`YYYY-MM-DD`)." })
   @OnlyWithout(["day", "month", "year"])
   @IsISO8601()
   string: string;

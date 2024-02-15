@@ -3,7 +3,7 @@ import { OnlyWith } from "../validation/OnlyWith";
 import { OnlyWithout } from "../validation/OnlyWithout";
 import axios, { Axios } from "axios";
 
-@ObjectType("LocationType")
+@ObjectType("LocationType", { description: "An object that contains latitude/longitude data as well as either city/country or an address."})
 @InputType({
   description:
     "An input for locations used for calculation. `city` and `country` must be provided together with all other fields null. `address` must be provided on it's own with all other fields null. `lat` and `lng` must be provided alone with all other fields null. Providing `city` and `country` or `address` will make an OpenStreetMaps API request to get the `lat` and `lng`.",
@@ -25,17 +25,17 @@ class LocationInput {
   @OnlyWithout(["country", "city", "address"])
   public lng: number;
 
-  @Field(type => String, { nullable: true })
+  @Field(type => String, { nullable: true, description: "The name of a city." })
   @OnlyWith("country")
   @OnlyWithout(["lat", "lng", "address"])
   public city: string;
 
-  @Field(type => String, { nullable: true })
+  @Field(type => String, { nullable: true, description: "The name of a country." })
   @OnlyWith("city")
   @OnlyWithout(["lat", "lng", "address"])
   public country: string;
 
-  @Field(type => String, { nullable: true })
+  @Field(type => String, { nullable: true, description: "An address in no particular format." })
   @OnlyWithout(["lat", "lng", "city", "country"])
   public address: string;
 

@@ -52,7 +52,7 @@ export type TimingNameInput = {
   [K in TimingName]?: boolean;
 };
 
-@ObjectType()
+@ObjectType({ description: "Response type containing requested prayer times, parameters used for calculation and the date."})
 class PrayerTimes {
   private salah: Salah;
   constructor(
@@ -77,13 +77,13 @@ class PrayerTimes {
     this.date = new DateField(date, locale);
     this.params = new PrayerTimesParams(salahOpts, location, locale);
   }
-  @Field(returns => DateField)
+  @Field(returns => DateField, { description: "The date for which the times were calculated for."})
   public date: DateField;
 
-  @Field(returns => [Timing])
+  @Field(returns => [Timing], { description: "An array of timings as requested."})
   public timings: Timing[];
 
-  @Field(returns => PrayerTimesParams)
+  @Field(returns => PrayerTimesParams, { description: "The parameters used for the calculation."})
   public params: PrayerTimesParams;
 }
 
