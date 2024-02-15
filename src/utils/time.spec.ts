@@ -21,8 +21,8 @@ describe("getTimezoneOffset", () => {
   });
 
   it("calculates the GMT timezone offset correctly for when the DST changes", () => {
-    let mar10_0 = new Date(2024, 2, 10, 0);
-    let mar10_3 = new Date(2024, 2, 10, 3);
+    let mar10_0 = new Date(Date.UTC(2024, 2, 10, 5)); // Equivalent to March 10, 12am in America/Toronto
+    let mar10_3 = new Date(Date.UTC(2024, 2, 10, 7)); // Equivalent to March 10, 3am in America/Toronto (DST changes at 2am)
     console.log(mar10_3.toLocaleString("en-US", { timeZone: "America/Toronto", timeZoneName: "shortOffset" }));
     expect(getTimezoneOffset("America/Toronto", mar10_0)).toBe(-5);
     expect(getTimezoneOffset("America/Toronto", mar10_3)).toBe(-4);
