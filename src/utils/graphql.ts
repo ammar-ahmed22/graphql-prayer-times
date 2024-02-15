@@ -1,11 +1,10 @@
 import "reflect-metadata"
 import { buildSchema, GraphQLTimestamp } from "type-graphql";
 import Resolver from "../resolvers";
-import { ExecutionResult, GraphQLSchema, graphql } from "graphql";
+import { GraphQLSchema, graphql } from "graphql";
 import { Maybe } from "graphql/jsutils/Maybe";
 import { ObjMapLike } from "graphql/jsutils/ObjMap";
 import { ApolloServer, BaseContext } from "@apollo/server";
-import { ObjMap } from "graphql/jsutils/ObjMap";
 
 export const createSchema = async (emitSchemaPath?: string): Promise<GraphQLSchema> => {
   const schema = await buildSchema({

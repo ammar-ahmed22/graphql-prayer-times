@@ -1,5 +1,4 @@
 import { normalize, deg2rad, rad2deg, DMath } from "./math";
-process.env.TZ = "America/Toronto";
 
 describe("normalize", () => {
   it("normalizes values correctly", () => {

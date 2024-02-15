@@ -4,7 +4,6 @@ import {
   // timezoneConvert,
   dateRange,
 } from "./time";
-process.env.TZ = "GMT0"
 
 describe("getTimezoneOffset", () => {
   it("calculates the GMT timezone offset correctly", () => {
