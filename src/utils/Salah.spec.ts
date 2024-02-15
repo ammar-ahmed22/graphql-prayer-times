@@ -1,6 +1,7 @@
 import Salah, { TimingName, Madhab } from "./Salah";
 import Duration from "./Duration";
 import { getTimezoneOffset } from "./time";
+process.env.TZ = "GMTO";
 
 describe("Salah", () => {
   const salah = new Salah({
@@ -58,9 +59,9 @@ describe("Salah", () => {
 
   it("accounts for DST changes correctly", () => {
     let mar9 = new Date(2024, 2, 9);
-    let mar10 = new Date(2024, 2, 10);
+    let mar11 = new Date(2024, 2, 11);
     let mag9 = salah.getTiming("maghrib", mar9);
-    let mag10 = salah.getTiming("maghrib", mar10);
-    expect(mag9.getHours()).toBe(mag10.getHours() - 1);
+    let mag11 = salah.getTiming("maghrib", mar11);
+    expect(mag9.getHours()).toBe(mag11.getHours() - 1);
   });
 });

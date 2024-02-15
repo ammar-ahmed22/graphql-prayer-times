@@ -1,4 +1,5 @@
 import Duration from "./Duration";
+process.env.TZ = "America/Toronto";
 
 describe("Duration", () => {
   it("calculates the difference between two dates correctly", () => {

@@ -20,65 +20,36 @@ export function getTimezoneOffset(
   timeZone: string,
   date?: Date,
 ): number {
-  // The date in the system timezone
-  let localDate = new Date();
-  if (date) {
-    localDate = date;
-  }
-  localDate.setMinutes(0);
-  localDate.setSeconds(0);
-  localDate.setMilliseconds(0);
-
-  // Create a UTC date object with hours using today's date
-  const utcDate = new Date(
-    localDate.getUTCFullYear(),
-    localDate.getUTCMonth(),
-    localDate.getUTCDate(),
-    localDate.getUTCHours(),
-  );
-
-  // Create another date with the time set to the time in the required timezone
-  const tzDate = timezoneConvert(timeZone, localDate);
-
-  // The difference in hours
-  let hoursDiff = tzDate.getHours() - utcDate.getHours();
-
-  // The difference in days (for when the time in UTC is on a different day)
-  let daysDiff = tzDate.getDate() - utcDate.getDate();
-
-  // Handling the case where it is at the end of a month (difference can never be more than a day, so, just change it to be -1 or 1)
-  if (Math.abs(daysDiff) > 1) {
-    daysDiff = Math.sign(daysDiff);
-  }
-  const offset = hoursDiff + daysDiff * 24;
-
-  return offset;
+  let d = date ?? new Date();
+  const [_d, _t, _m, offsetStr] = d.toLocaleString("en-US", { timeZone, timeZoneName: 'shortOffset' }).split(" ");
+  return parseInt(offsetStr.slice(3));
 }
 
-export function timezoneConvert(timeZone: string, date: Date): Date {
-  let formatter = new Intl.DateTimeFormat("en-US", {
-    timeZone,
-    hour12: false,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    year: "numeric",
-    day: "2-digit",
-    month: "2-digit",
-  });
+// export function timezoneConvert(timeZone: string, date: Date): Date {
+//   let formatter = new Intl.DateTimeFormat("en-US", {
+//     timeZone,
+//     hour12: false,
+//     hour: "2-digit",
+//     minute: "2-digit",
+//     second: "2-digit",
+//     year: "numeric",
+//     day: "2-digit",
+//     month: "2-digit",
+//   });
+//   console.log("date:", date.toLocaleString());
+//   let formatted = formatter.format(date);
+//   console.log("formatted:", formatted);
+//   const [dateStr, timeStr] = formatted.split(", ");
+//   let [month, day, year]: number[] = dateStr
+//     .split("/")
+//     .map(s => parseInt(s));
+//   let [hour, minute, second]: number[] = timeStr
+//     .split(":")
+//     .map(s => parseInt(s));
 
-  let formatted = formatter.format(date);
-  const [dateStr, timeStr] = formatted.split(", ");
-  let [month, day, year]: number[] = dateStr
-    .split("/")
-    .map(s => parseInt(s));
-  let [hour, minute, second]: number[] = timeStr
-    .split(":")
-    .map(s => parseInt(s));
-
-  if (hour === 24) hour = 0;
-  return new Date(year, month - 1, day, hour, minute, second);
-}
+//   if (hour === 24) hour = 0;
+//   return new Date(year, month - 1, day, hour, minute, second);
+// }
 
 /**
  * Creates a range of dates from [`start`, `end`] given a `step` size
