@@ -1,7 +1,7 @@
 import Salah, { TimingName, Madhab } from "./Salah";
 import Duration from "./Duration";
 import { getTimezoneOffset } from "./time";
-process.env.TZ = "America/Toronto";
+process.env.TZ = "GMTO";
 
 describe("Salah", () => {
   const salah = new Salah({

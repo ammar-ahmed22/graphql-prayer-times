@@ -4,7 +4,7 @@ import {
   // timezoneConvert,
   dateRange,
 } from "./time";
-process.env.TZ = "America/Toronto"
+process.env.TZ = "GMT0"
 
 describe("getTimezoneOffset", () => {
   it("calculates the GMT timezone offset correctly", () => {
@@ -23,6 +23,7 @@ describe("getTimezoneOffset", () => {
   it("calculates the GMT timezone offset correctly for when the DST changes", () => {
     let mar10_0 = new Date(2024, 2, 10, 0);
     let mar10_3 = new Date(2024, 2, 10, 3);
+    console.log(mar10_3.getTimezoneOffset());
     expect(getTimezoneOffset("America/Toronto", mar10_0)).toBe(-5);
     expect(getTimezoneOffset("America/Toronto", mar10_3)).toBe(-4);
   });
