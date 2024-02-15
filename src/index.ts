@@ -174,6 +174,7 @@ import Resolver from "./resolvers";
 // }
 
 (async () => {
+  process.env.TZ = "America/Toronto";
   const schema = await buildSchema({
     resolvers: [Resolver],
     emitSchemaFile: {
