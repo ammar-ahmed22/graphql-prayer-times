@@ -1,5 +1,7 @@
 import "reflect-metadata"; // Required for TypeGraphQL
 import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import express from "express";
 import cors from "cors";
 import { createSchema, createServer } from "./utils/graphql";
@@ -12,7 +14,12 @@ import { createSchema, createServer } from "./utils/graphql";
   const app = express(); // the express server
 
   // the graphql server
-  const server = await createServer(schema);
+  // const server = await createServer(schema);
+  const server = new ApolloServer({
+    schema,
+    introspection: true,
+    plugins: [ApolloServerPluginLandingPageLocalDefault()]
+  })
 
   console.log("ENV:", process.env.NODE_ENV);
 
