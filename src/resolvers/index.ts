@@ -7,7 +7,7 @@ import {
 import PrayerTimes, { TimingNameInput } from "../models/PrayerTimes";
 import { Methods, SalahOptions } from "../utils/Salah";
 import { find } from "geo-tz";
-import { dateRange, timezoneConvert } from "../utils/time";
+import { dateRange } from "../utils/time";
 import Duration from "../utils/Duration";
 import CalculationInput from "../inputs/CalculationInput";
 import DateInput from "../inputs/DateInput";
@@ -53,12 +53,13 @@ class Resolver {
         );
     }
 
-    let date: Date;
-    if (dateInput) {
-      date = dateInput.date;
-    } else {
-      date = timezoneConvert(timeZone, new Date());
-    }
+    // FIGURE THIS OUT => if no date provided, want date in provided timezone!! (NEED YEAR MONTH DAY IN PROVIDED TIMEZONE FOR JULIAN DATE)
+    let date: Date = new Date();
+    // if (dateInput) {
+    //   date = dateInput.date;
+    // } else {
+    //   date = timezoneConvert(timeZone, new Date());
+    // }
 
     const salahOpts: SalahOptions = {
       lat,

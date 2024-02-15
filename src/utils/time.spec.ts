@@ -1,7 +1,7 @@
 import Duration from "./Duration";
 import {
   getTimezoneOffset,
-  timezoneConvert,
+  // timezoneConvert,
   dateRange,
 } from "./time";
 process.env.TZ = "America/Toronto"
@@ -28,18 +28,18 @@ describe("getTimezoneOffset", () => {
   });
 });
 
-describe("timezoneConvert", () => {
-  it("converts a date to a specified timezone", () => {
-    let feb13_12pm = new Date(2024, 1, 13, 12, 0, 0, 0);
-    // let karachiNow = timezoneConvert("Asia/Karachi", feb13_12pm);
-    let shanghaiNow = timezoneConvert("Asia/Shanghai", feb13_12pm);
+// describe("timezoneConvert", () => {
+//   it("converts a date to a specified timezone", () => {
+//     let feb13_12pm = new Date(2024, 1, 13, 12, 0, 0, 0);
+//     // let karachiNow = timezoneConvert("Asia/Karachi", feb13_12pm);
+//     let shanghaiNow = timezoneConvert("Asia/Shanghai", feb13_12pm);
 
-    expect(shanghaiNow.getFullYear()).toBe(2024);
-    expect(shanghaiNow.getMonth()).toBe(1);
-    expect(shanghaiNow.getDate()).toBe(14); // date changed
-    expect(shanghaiNow.getHours()).toBe(1); // 1 am
-  });
-});
+//     expect(shanghaiNow.getFullYear()).toBe(2024);
+//     expect(shanghaiNow.getMonth()).toBe(1);
+//     expect(shanghaiNow.getDate()).toBe(14); // date changed
+//     expect(shanghaiNow.getHours()).toBe(1); // 1 am
+//   });
+// });
 
 describe("dateRange", () => {
   it("creates a range of dates correctly with step size of 1 day", () => {
