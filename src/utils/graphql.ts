@@ -24,7 +24,7 @@ export const createServer = async (schema: GraphQLSchema): Promise<ApolloServer<
   const server = new ApolloServer({
     schema,
     introspection: true,
-    plugins: [ApolloServerPluginLandingPageLocalDefault()]
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })]
   });
 
   return server;
