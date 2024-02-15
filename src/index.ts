@@ -6,7 +6,7 @@ import { createSchema, createServer } from "./utils/graphql";
 
 
 (async () => {
-  process.env.TZ = "GMT0";
+
   const schema = await createSchema();
 
   const app = express(); // the express server
