@@ -66,8 +66,9 @@ export function timezoneConvert(timeZone: string, date: Date): Date {
     day: "2-digit",
     month: "2-digit",
   });
-
+  console.log("date:", date.toLocaleString());
   let formatted = formatter.format(date);
+  console.log("formatted:", formatted);
   const [dateStr, timeStr] = formatted.split(", ");
   let [month, day, year]: number[] = dateStr
     .split("/")
