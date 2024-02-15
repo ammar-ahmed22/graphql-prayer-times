@@ -1,57 +1,61 @@
 import "reflect-metadata";
-import { GraphQLSchema, graphql } from "graphql";
-import Resolver from ".";
-import { buildSchema, getMetadataStorage, GraphQLTimestamp } from "type-graphql";
+import { GraphQLSchema } from "graphql";
+import { createSchema, schemaRequest } from "../utils/graphql";
+
 
 describe("Integration", () => {
   let schema: GraphQLSchema;
-  let argInput: any;
-  let argData: any;
-
-  beforeEach(() => {
-    argData = undefined;
-    argInput = undefined;
-  })
 
   beforeAll(async () => {
-    getMetadataStorage().clear();
     try {
-      schema = await buildSchema({
-        resolvers: [Resolver],
-        validate: true,
-        scalarsMap: [{ type: Date, scalar: GraphQLTimestamp }],
-      })
+      schema = await createSchema();
     } catch (error: any) {
       console.log(error.details);
     }
   })
 
   it("runs", async () => {
-    const query = `query {
-      byDate(
-        location: {
-          city: "Whitby",
-          country: "Canada",
-        },
-        calculation: {
-          timings: ["fajr"]
+    const query = `query ByDate($location: LocationInput!, $calculation: CalculationInput, $date: DateInput) {
+      byDate(location: $location, calculation: $calculation, date: $date) {
+        params {
+          timeZone
+          location {
+            lat
+            lng
+          }
         }
-      ) {
         date {
-          localeString
+          year
+          month
+          day
         }
         timings {
           name
           datetime {
             time {
-              localeString
+              hour
+              minute
+              second
             }
           }
         }
       }
     }`
-    const result = await graphql({ schema, source: query });
-    console.log(result);
+    const variableValues = {
+      "location": {
+        "city": "Whitby",
+        "country": "Canada"
+      },
+      "calculation": {
+        "timings": ["fajr"],
+        "timeZone": "America/Toronto"
+      },
+      "date": {
+        "string": "2024-02-15"
+      }
+    }
+    const result = await schemaRequest({ schema, source: query, variableValues });
+    console.log(result.data.byDate.timings[0].datetime.time);
     expect(true).toBe(true);
   })
 })
