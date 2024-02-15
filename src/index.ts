@@ -14,12 +14,7 @@ import { createSchema, createServer } from "./utils/graphql";
   const app = express(); // the express server
 
   // the graphql server
-  // const server = await createServer(schema);
-  const server = new ApolloServer({
-    schema,
-    introspection: true,
-    plugins: [ApolloServerPluginLandingPageLocalDefault()]
-  })
+  const server = await createServer(schema);
 
   console.log("ENV:", process.env.NODE_ENV);
 
