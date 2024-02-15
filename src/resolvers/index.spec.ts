@@ -55,6 +55,7 @@ describe("Integration", () => {
       }
     }
     const result = await schemaRequest({ schema, source: query, variableValues });
+    console.log(result.data.byDate.date);
     console.log(result.data.byDate.timings[0].datetime.time);
     expect(true).toBe(true);
   })
