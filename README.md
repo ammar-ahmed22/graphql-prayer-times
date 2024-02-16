@@ -2,6 +2,7 @@
   <img src="./images//graphql-prayer-times-logo.png" width="100" height="100" borderRadius="500" >
   <h1>Prayer Times GraphQL API</h1>
   <p>API is live here: <a href="https://graphql-prayer-times.fly.dev/graphql">https://graphql-prayer-times.fly.dev/graphql</a></p>
+  <img src="https://img.shields.io/github/actions/workflow/status/ammar-ahmed22/graphql-prayer-times/tests.yml?label=tests" />
 </div>
 
 A public GraphQL API for calculating Islamic prayer times with highly configurable options. All calculations are done internally without any external dependencies (for the calculations).
