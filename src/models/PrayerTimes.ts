@@ -1,8 +1,28 @@
 import { ObjectType, Field } from "type-graphql";
 import Timing from "./Timing";
-import Salah, { SalahOptions, TimingName } from "../utils/Salah";
-import Datetime, { DateField } from "./Datetime";
+import Salah, { SalahOptions, TimingName, CalculationMethod } from "../utils/Salah";
+import { DateField } from "./Datetime";
 import LocationInput from "../inputs/LocationInput";
+
+@ObjectType({
+  description: "Detailed explanations of the calculation methods."
+})
+export class DetailedMethod {
+  constructor(method: CalculationMethod) {
+    this.id = method.id;
+    this.name = method.fullName;
+    this.description = `Fajr is calculated at ${method.fajrParam} degrees. Isha is calculated ${typeof method.ishaParam === "number" ? `at ${method.ishaParam} degrees.` : `as ${method.ishaParam.getMinutes()} minutes after maghrib.`}`
+  }
+
+  @Field({ description: "The id of the method. This value is used as the input."})
+  public id: string;
+
+  @Field({ description: "The full name of the calculation authority."})
+  public name: string;
+
+  @Field({ description: "A short description of the calculation."})
+  public description: string;
+}
 
 @ObjectType({
   description: "Parameters used for the calculation of prayer times.",
@@ -14,7 +34,7 @@ export class PrayerTimesParams {
     locale: string,
   ) {
     this.timeZone = salahOpts.timeZone;
-    this.method = salahOpts.method?.fullName;
+    this.method = salahOpts.method && new DetailedMethod(salahOpts.method);
     this.locale = locale;
     this.madhab = salahOpts.madhab === 2 ? "Hanafi" : "Shafi";
     this.location = location;
@@ -35,11 +55,11 @@ export class PrayerTimesParams {
   })
   public madhab?: string;
 
-  @Field({
+  @Field(type => DetailedMethod, {
     description:
-      "The name of the calculation method used for the Fajr and Isha calculations.",
+      "Detailed explanation of the calculation method used for Fajr and Isha.",
   })
-  public method?: string;
+  public method?: DetailedMethod;
 
   @Field(type => LocationInput, {
     description:
