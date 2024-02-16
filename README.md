@@ -1,6 +1,7 @@
 <div align="center">
   <img src="./images//graphql-prayer-times-logo.png" width="100" height="100" borderRadius="500" >
   <h1>Prayer Times GraphQL API</h1>
+  <p>API is live here: <a href="https://graphql-prayer-times.fly.dev/graphql">https://graphql-prayer-times.fly.dev/graphql</a></p>
 </div>
 
 A public GraphQL API for calculating Islamic prayer times with highly configurable options. All calculations are done internally without any external dependencies (for the calculations).
@@ -89,7 +90,7 @@ type PrayerTimes {
   timings: [Timing!]!
 }
 ```
-For more information about these fields, check out the [playground/docs](https://localhost:8080/graphql).
+For more information about these fields, check out the [playground/docs](https://graphql-prayer-times.fly.dev/graphql).
 
 ## Examples
 ### Get all times for Toronto, Canada

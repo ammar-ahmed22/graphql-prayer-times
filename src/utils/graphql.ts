@@ -19,12 +19,49 @@ export const createSchema = async (emitSchemaPath?: string): Promise<GraphQLSche
   return schema;
 }
 
+export const createPlugin = () => {
+  const document = `query AllTimings($location: LocationInput!) {
+    byDate(location: $location) {
+      params {
+        madhab
+        method
+        locale
+        timeZone
+        location {
+          city
+          country
+          lat
+          lng
+        }
+      }
+      date {
+        localeString
+      }
+      timings {
+        name
+        datetime {
+          time {
+            localeString
+          }
+        }
+      }
+    }
+  }`
+  const variables: Record<string, any> = {
+    location: {
+      city: "Toronto",
+      country: "Canada"
+    }
+  }
+  return ApolloServerPluginLandingPageLocalDefault({ document, variables });
+}
+
 
 export const createServer = async (schema: GraphQLSchema): Promise<ApolloServer<BaseContext>> => {
   const server = new ApolloServer({
     schema,
     introspection: true,
-    plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })]
+    plugins: [createPlugin()]
   });
 
   return server;
