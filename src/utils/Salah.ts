@@ -27,7 +27,7 @@ export class CalculationMethod {
   public ishaParam: number | Duration;
 }
 
-export const METHOD_NAMES = ["MWL", "ISNA", "Egypt"] as const;
+export const METHOD_NAMES = ["MWL", "ISNA", "Egypt", "Makkah", "Karachi", "Tehran", "Shia"] as const;
 
 export type MethodName = (typeof METHOD_NAMES)[number];
 
@@ -41,8 +41,8 @@ export class Methods {
   static MWL = new CalculationMethod({
     id: "MWL",
     fullName: "Muslim World League",
-    fajrParam: 15,
-    ishaParam: 15,
+    fajrParam: 18,
+    ishaParam: 17,
   });
 
   static ISNA = new CalculationMethod({
@@ -54,10 +54,38 @@ export class Methods {
 
   static Egypt = new CalculationMethod({
     id: "Egypt",
-    fullName: "Egpyt",
-    fajrParam: 15,
-    ishaParam: 15,
+    fullName: "Egyptian General Authority of Survey",
+    fajrParam: 19.5,
+    ishaParam: 17.5,
   });
+
+  static Makkah = new CalculationMethod({
+    id: "Makkah",
+    fullName: "Umm al-Qura University, Makkah",
+    fajrParam: 18.5,
+    ishaParam: Duration.fromMinutes(90),
+  })
+
+  static Karachi = new CalculationMethod({
+    id: "Karachi",
+    fullName: "University of Islamic Sciences, Karachi",
+    fajrParam: 18,
+    ishaParam: 18
+  })
+
+  static Tehran = new CalculationMethod({
+    id: "Tehran",
+    fullName: "Institute of Geophysics, University of Tehran",
+    fajrParam: 17.7,
+    ishaParam: 14
+  })
+
+  static Shia = new CalculationMethod({
+    id: "Shia",
+    fullName: "Shia Ithna Ashari, Leva Research Institute, Qum",
+    fajrParam: 16,
+    ishaParam: 14
+  })
 }
 
 export enum Madhab {
@@ -328,15 +356,20 @@ class Salah {
    * @param date The date to calculate for.
    */
   private isha(date: Date): Date {
-    let angle = this.method.ishaParam as number;
-    let jd = this.julian(date);
-    let hour = this.horizonHourAngle(
-      angle,
-      jd,
-      getTimezoneOffset(this.timeZone, date),
-      1,
-    );
-    return this.hour2date(hour, date);
+    let param = this.method.ishaParam;
+    if (typeof param === "number") {
+      let jd = this.julian(date);
+      let hour = this.horizonHourAngle(
+        param,
+        jd,
+        getTimezoneOffset(this.timeZone, date),
+        1,
+      );
+      return this.hour2date(hour, date);
+    } else {
+      let sunset = this.maghrib(date);
+      return Duration.add(sunset, param);
+    }
   }
 
   /**
